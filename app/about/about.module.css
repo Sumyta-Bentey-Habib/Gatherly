@@ -1,0 +1,13 @@
+.iconFilled {
+  font-variation-settings: 'FILL' 1;
+}
+
+.aboutHeroBg {
+  background: linear-gradient(135deg, #b6ede8 0%, #ffffff 100%);
+}
+
+.teamCard {
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.04);
+  border: 1px solid #bccac1;
+  border-radius: 1rem;
+}
