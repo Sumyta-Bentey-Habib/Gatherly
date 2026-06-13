@@ -2,6 +2,8 @@
 
 import styles from "./components.module.css";
 import { useNavbarScroll } from "../app/hooks/useNavbarScroll";
+import { useSession, signOut } from "../lib/auth-client";
+import { useRouter } from "next/navigation";
 
 interface NavbarProps {
   activePage?: "explore" | "features" | "about" | "contact" | "";
@@ -9,6 +11,14 @@ interface NavbarProps {
 
 export default function Navbar({ activePage = "" }: NavbarProps) {
   const isScrolled = useNavbarScroll();
+  const { data: session, isPending } = useSession();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push("/");
+    router.refresh();
+  };
 
   return (
     <header
@@ -73,18 +83,50 @@ export default function Navbar({ activePage = "" }: NavbarProps) {
         </nav>
         {/* Actions */}
         <div className="hidden md:flex items-center gap-4">
-          <a
-            className="text-secondary font-label-md text-label-md hover:text-primary transition-colors px-4 py-2"
-            href="#"
-          >
-            Sign In
-          </a>
-          <a
-            className="bg-primary-container text-on-primary font-label-md text-label-md px-6 py-2.5 rounded-full hover:shadow-ambient hover:-translate-y-0.5 transition-all active:scale-95"
-            href="#"
-          >
-            Create Event
-          </a>
+          {isPending ? (
+            <div className="w-16 h-8 bg-surface-container-high rounded-full animate-pulse"></div>
+          ) : session ? (
+            <div className="flex items-center gap-4">
+              <span className="font-label-md text-label-md text-on-surface-variant">
+                Hi, {session.user.name.split(" ")[0]}
+              </span>
+              <a
+                className="text-secondary font-label-md text-label-md hover:text-primary transition-colors px-3 py-1.5"
+                href={session.user.role === "admin" ? "/admin" : "/dashboard"}
+              >
+                Dashboard
+              </a>
+              {session.user.role === "admin" && (
+                <a
+                  className="bg-primary-container text-on-primary font-label-md text-label-md px-4 py-2 rounded-full hover:shadow-ambient hover:-translate-y-0.5 transition-all active:scale-95"
+                  href="/events/create"
+                >
+                  Create Event
+                </a>
+              )}
+              <button
+                onClick={handleSignOut}
+                className="text-error font-label-md text-label-md hover:opacity-80 transition-colors px-3 py-1.5 cursor-pointer"
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <>
+              <a
+                className="text-secondary font-label-md text-label-md hover:text-primary transition-colors px-4 py-2"
+                href="/login"
+              >
+                Sign In
+              </a>
+              <a
+                className="bg-primary-container text-on-primary font-label-md text-label-md px-6 py-2.5 rounded-full hover:shadow-ambient hover:-translate-y-0.5 transition-all active:scale-95"
+                href="/register"
+              >
+                Sign Up
+              </a>
+            </>
+          )}
         </div>
         {/* Mobile Menu Toggle */}
         <button className="md:hidden text-on-surface p-2">
