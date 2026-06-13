@@ -35,11 +35,7 @@ export default function RegisterPage() {
         setError(response.error.message || "Failed to create account");
       } else {
         router.refresh();
-        if (role === "admin") {
-          router.push("/admin");
-        } else {
-          router.push("/dashboard");
-        }
+        router.push("/dashboard");
       }
     } catch (err: any) {
       setError(err?.message || "An unexpected error occurred. Please try again.");
@@ -139,23 +135,7 @@ export default function RegisterPage() {
                 />
               </div>
 
-              <div>
-                <label
-                  htmlFor="register-role"
-                  className="block font-label-md text-label-md text-on-surface mb-2"
-                >
-                  Choose Your Account Type
-                </label>
-                <select
-                  id="register-role"
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                  className="w-full bg-surface-container-lowest border border-outline-variant/60 rounded-xl px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-body-md text-body-md text-on-surface cursor-pointer"
-                >
-                  <option value="user">User (Book and attend events)</option>
-                  <option value="admin">Admin (Organize and manage events)</option>
-                </select>
-              </div>
+              {/* Account role defaults to "user" automatically */}
 
               <button
                 id="register-submit-btn"
