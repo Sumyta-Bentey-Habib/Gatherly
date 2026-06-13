@@ -1,53 +1,20 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { signIn } from "../../lib/auth-client";
+import { useLogin } from "../hooks/useLogin";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    error,
+    loading,
+    handleLogin,
+  } = useLogin();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    try {
-      const response = await signIn.email({
-        email,
-        password,
-      });
-
-      if (response.error) {
-        setError(response.error.message || "Invalid email or password");
-      } else {
-        // Force refresh router to let Navbar see the new session
-        router.refresh();
-        // The middleware or client router redirect will handle routing.
-        // Let's explicitly redirect to dashboard or admin dashboard
-        // We will fetch session info or simply route them to dashboard.
-        // For convenience, we can route to /dashboard and let it check.
-        // Better: we can check the returned response or just wait,
-        // but since response redirects by default or returns user details:
-        const user = response.data?.user;
-        if (user?.role === "admin") {
-          router.push("/admin");
-        } else {
-          router.push("/dashboard");
-        }
-      }
-    } catch (err: any) {
-      setError(err?.message || "An unexpected error occurred. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="min-h-screen flex flex-col bg-surface font-body-md text-body-md antialiased landing-page">
