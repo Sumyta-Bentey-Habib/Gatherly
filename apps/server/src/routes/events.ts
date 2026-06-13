@@ -1,0 +1,15 @@
+import { Router } from "express";
+import { adminMiddleware } from "../middleware/auth.js";
+import { getAllEvents, createEvent, getEventById, updateEvent, deleteEvent } from "../controllers/events.js";
+import { validateRequest } from "../middleware/validation.js";
+import { createEventSchema, updateEventSchema } from "../validation/schemas.js";
+
+const router = Router();
+
+router.get("/", getAllEvents);
+router.post("/", adminMiddleware, validateRequest(createEventSchema), createEvent);
+router.get("/:id", getEventById);
+router.patch("/:id", adminMiddleware, validateRequest(updateEventSchema), updateEvent);
+router.delete("/:id", adminMiddleware, deleteEvent);
+
+export default router;
