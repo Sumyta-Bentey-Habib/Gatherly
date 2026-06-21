@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "../../lib/auth-client";
 import { apiFetch } from "../../lib/api";
 
-export function useCreateEvent() {
+export function useEditEvent(eventId: string) {
   const { data: session, isPending } = useSession();
   const router = useRouter();
 
@@ -20,17 +20,16 @@ export function useCreateEvent() {
   const [description, setDescription] = useState("");
   const [duration, setDuration] = useState("1 day");
   
-  const [inclusions, setInclusions] = useState<string[]>(["Full access pass", "Food & drinks included"]);
+  const [inclusions, setInclusions] = useState<string[]>([]);
   const [inclusionInput, setInclusionInput] = useState("");
 
-  const [itinerary, setItinerary] = useState<{ day: number; title: string; description: string }[]>([
-    { day: 1, title: "Opening and Keynotes", description: "Introduction, welcome address, and main presentations." },
-  ]);
+  const [itinerary, setItinerary] = useState<{ day: number; title: string; description: string }[]>([]);
   const [itineraryTitle, setItineraryTitle] = useState("");
   const [itineraryDesc, setItineraryDesc] = useState("");
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [success, setSuccess] = useState(false);
 
   // Preset premium cover images
@@ -50,6 +49,36 @@ export function useCreateEvent() {
       }
     }
   }, [session, isPending, router]);
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        setInitialLoading(true);
+        const data = await apiFetch(`/api/events/${eventId}`);
+        if (data) {
+          setTitle(data.title || "");
+          setCategory(data.category || "Design");
+          setPrice(data.price || 0);
+          setStartDate(data.startDate || "");
+          setLocation(data.location || "");
+          setDistanceNote(data.distanceNote || "");
+          setImgUrl(data.imgUrl || "");
+          setDescription(data.description || "");
+          setDuration(data.duration || "1 day");
+          setInclusions(data.inclusions || []);
+          setItinerary(data.itinerary || []);
+        }
+      } catch (err: any) {
+        setError("Failed to load event details.");
+      } finally {
+        setInitialLoading(false);
+      }
+    };
+
+    if (eventId && !isPending && session?.user.role === "admin") {
+      fetchEvent();
+    }
+  }, [eventId, session, isPending]);
 
   const handleAddInclusion = () => {
     if (inclusionInput.trim()) {
@@ -98,8 +127,8 @@ export function useCreateEvent() {
     }
 
     try {
-      await apiFetch("/api/events", {
-        method: "POST",
+      await apiFetch(`/api/events/${eventId}`, {
+        method: "PATCH",
         body: JSON.stringify({
           title,
           category,
@@ -121,7 +150,7 @@ export function useCreateEvent() {
         router.push("/admin");
       }, 2000);
     } catch (err: any) {
-      setError(err.message || "Failed to create event");
+      setError(err.message || "Failed to update event");
     } finally {
       setLoading(false);
     }
@@ -162,6 +191,7 @@ export function useCreateEvent() {
     error,
     setError,
     loading,
+    initialLoading,
     success,
     coverPresets,
     handleAddInclusion,

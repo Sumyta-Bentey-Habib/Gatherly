@@ -1,10 +1,14 @@
 "use client";
 
-import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
-import { useCreateEvent } from "../../hooks/useCreateEvent";
+import Navbar from "../../../../components/Navbar";
+import Footer from "../../../../components/Footer";
+import { useEditEvent } from "../../../hooks/useEditEvent";
+import { useParams } from "next/navigation";
 
-export default function CreateEventPage() {
+export default function EditEventPage() {
+  const params = useParams();
+  const eventId = typeof params?.id === "string" ? params.id : "";
+
   const {
     session,
     isPending,
@@ -37,6 +41,7 @@ export default function CreateEventPage() {
     setItineraryDesc,
     error,
     loading,
+    initialLoading,
     success,
     coverPresets,
     handleAddInclusion,
@@ -44,9 +49,9 @@ export default function CreateEventPage() {
     handleAddItinerary,
     handleRemoveItinerary,
     handleSubmit,
-  } = useCreateEvent();
+  } = useEditEvent(eventId);
 
-  if (isPending || !session) {
+  if (isPending || initialLoading || !session) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-surface">
         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
@@ -69,21 +74,21 @@ export default function CreateEventPage() {
 
         <div className="glass-panel p-8 md:p-10 rounded-3xl card-ambient bg-white/70">
           <div className="mb-8">
-            <span className="material-symbols-outlined text-primary text-4xl mb-2">post_add</span>
-            <h1 className="font-display-lg text-headline-lg text-on-surface mb-2">Create New Event</h1>
+            <span className="material-symbols-outlined text-primary text-4xl mb-2">edit_document</span>
+            <h1 className="font-display-lg text-headline-lg text-on-surface mb-2">Edit Event</h1>
             <p className="font-body-md text-body-md text-on-surface-variant">
-              Draft a premium event listing with pricing, locations, and schedules.
+              Update your premium event listing.
             </p>
           </div>
 
           {success ? (
             <div className="bg-primary-container/15 border border-primary-container/20 p-8 rounded-2xl text-center text-primary space-y-2">
               <span className="material-symbols-outlined text-5xl animate-bounce">check_circle</span>
-              <h3 className="font-headline-md text-headline-md">Event Created Successfully!</h3>
+              <h3 className="font-headline-md text-headline-md">Event Updated Successfully!</h3>
               <p className="font-label-sm text-label-sm">Returning to the admin overview...</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-6" id="create-event-form">
+            <form onSubmit={handleSubmit} className="space-y-6" id="edit-event-form">
               {error && (
                 <div className="bg-error-container text-on-error-container p-4 rounded-xl border border-error/20 text-sm">
                   {error}
@@ -342,10 +347,10 @@ export default function CreateEventPage() {
                 {loading ? (
                   <>
                     <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                    Publishing Event...
+                    Updating Event...
                   </>
                 ) : (
-                  "Publish Event Listing"
+                  "Update Event Listing"
                 )}
               </button>
             </form>

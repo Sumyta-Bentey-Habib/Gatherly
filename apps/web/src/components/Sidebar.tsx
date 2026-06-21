@@ -100,6 +100,12 @@ export default function Sidebar({
           </div>
         )}
         <button
+          onClick={() => router.push("/")}
+          className="w-full text-center text-primary border border-primary/20 hover:bg-primary-container/10 py-2 rounded-full font-label-sm text-label-sm transition-colors cursor-pointer"
+        >
+          Return Home
+        </button>
+        <button
           onClick={handleSignOut}
           className="w-full text-center text-error border border-error/20 hover:bg-error-container/10 py-2 rounded-full font-label-sm text-label-sm transition-colors cursor-pointer"
         >

@@ -213,13 +213,21 @@ export default function AdminDashboard() {
                                 {evt.price === 0 ? "Free" : `$${evt.price}`}
                               </td>
                               <td className="px-6 py-4 text-right">
-                                <button
-                                  onClick={() => handleDeleteEvent(evt._id)}
-                                  disabled={actionLoading === evt._id}
-                                  className="text-error border border-error/20 hover:bg-error/10 px-3 py-1.5 rounded-full font-label-sm text-label-sm cursor-pointer disabled:opacity-50"
-                                >
-                                  {ADMIN_STRINGS.deleteBtn}
-                                </button>
+                                <div className="flex justify-end gap-2">
+                                  <button
+                                    onClick={() => router.push(`/events/edit/${evt._id}`)}
+                                    className="text-secondary border border-secondary/20 hover:bg-secondary/10 px-3 py-1.5 rounded-full font-label-sm text-label-sm cursor-pointer disabled:opacity-50"
+                                  >
+                                    Edit
+                                  </button>
+                                  <button
+                                    onClick={() => handleDeleteEvent(evt._id)}
+                                    disabled={actionLoading === evt._id}
+                                    className="text-error border border-error/20 hover:bg-error/10 px-3 py-1.5 rounded-full font-label-sm text-label-sm cursor-pointer disabled:opacity-50"
+                                  >
+                                    {ADMIN_STRINGS.deleteBtn}
+                                  </button>
+                                </div>
                               </td>
                             </tr>
                           ))

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { featuredEvents } from "../data/dummyData";
 import { apiFetch } from "../../lib/api";
 
 export interface EventItem {
@@ -49,15 +48,13 @@ export function useExploreEvents() {
         setEvents(normalized);
         setFilteredEvents(normalized);
       } else {
-        // Fallback to dummy events if database is empty
-        setEvents(featuredEvents);
-        setFilteredEvents(featuredEvents);
+        setEvents([]);
+        setFilteredEvents([]);
       }
     } catch (err) {
       console.error("Failed to load events from server:", err);
-      // Fallback
-      setEvents(featuredEvents);
-      setFilteredEvents(featuredEvents);
+      setEvents([]);
+      setFilteredEvents([]);
     } finally {
       setLoading(false);
     }
