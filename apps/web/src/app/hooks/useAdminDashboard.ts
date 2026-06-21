@@ -4,6 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "../../lib/auth-client";
 import { apiFetch } from "../../lib/api";
+import {
+  API_ENDPOINTS,
+  INITIAL_ANALYTICS,
+  CHART_DUMMY_DATA,
+  CHART_DUMMY_LABELS,
+  CHART_COLOR_CONFIG,
+  getChartOptions,
+  ADMIN_STRINGS,
+} from "../admin/admin.constants";
 
 export interface Booking {
   _id: string;
@@ -49,13 +58,7 @@ export function useAdminDashboard() {
   const router = useRouter();
 
   const [activeSection, setActiveSection] = useState<"overview" | "events" | "users" | "bookings">("overview");
-  const [analytics, setAnalytics] = useState<Analytics>({
-    totalRevenue: 0,
-    activeTrips: 0,
-    completedBookings: 0,
-    newUsers: 0,
-    conversionRate: 4.2,
-  });
+  const [analytics, setAnalytics] = useState<Analytics>(INITIAL_ANALYTICS);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [users, setUsers] = useState<UserItem[]>([]);
   const [events, setEvents] = useState<EventItem[]>([]);
@@ -81,10 +84,10 @@ export function useAdminDashboard() {
 
       // Fetch analytics, bookings, users, events
       const [analyticsData, bookingsData, usersData, eventsData] = await Promise.all([
-        apiFetch("/api/analytics").catch(() => null),
-        apiFetch("/api/bookings?all=true").catch(() => []),
-        apiFetch("/api/users").catch(() => []),
-        apiFetch("/api/events").catch(() => []),
+        apiFetch(API_ENDPOINTS.analytics).catch(() => null),
+        apiFetch(API_ENDPOINTS.bookings).catch(() => []),
+        apiFetch(API_ENDPOINTS.users).catch(() => []),
+        apiFetch(API_ENDPOINTS.events).catch(() => []),
       ]);
 
       if (analyticsData) setAnalytics(analyticsData);
@@ -150,8 +153,8 @@ export function useAdminDashboard() {
 
     // Fallback to dummy curve if database is clean
     const hasData = chartData.some((val) => val > 0);
-    const finalData = hasData ? chartData : [4, 7, 5, 9, 12, 10, 15];
-    const finalLabels = hasData ? labels : ["Jun 7", "Jun 8", "Jun 9", "Jun 10", "Jun 11", "Jun 12", "Jun 13"];
+    const finalData = hasData ? chartData : CHART_DUMMY_DATA;
+    const finalLabels = hasData ? labels : CHART_DUMMY_LABELS;
 
     chartInstance.current = new customWindow.Chart(ctx, {
       type: "line",
@@ -161,49 +164,22 @@ export function useAdminDashboard() {
           {
             label: "Bookings Created",
             data: finalData,
-            borderColor: "#3EB489",
-            backgroundColor: "rgba(62, 180, 137, 0.1)",
+            borderColor: CHART_COLOR_CONFIG.borderColor,
+            backgroundColor: CHART_COLOR_CONFIG.backgroundColor,
             borderWidth: 3,
             fill: true,
             tension: 0.4,
-            pointBackgroundColor: "#3EB489",
+            pointBackgroundColor: CHART_COLOR_CONFIG.pointBackgroundColor,
             pointHoverRadius: 7,
           },
         ],
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            mode: "index",
-            intersect: false,
-            backgroundColor: "#2c322e",
-            titleColor: "#ffffff",
-            bodyColor: "#ffffff",
-            borderColor: "#bccac1",
-            borderWidth: 1,
-          },
-        },
-        scales: {
-          y: {
-            grid: { color: "rgba(109, 122, 114, 0.1)" },
-            ticks: {
-              color: "#3d4943",
-              font: { family: "Inter", size: 12 },
-              stepSize: 1,
-            },
-          },
-          x: {
-            grid: { display: false },
-            ticks: {
-              color: "#3d4943",
-              font: { family: "Inter", size: 12 },
-            },
-          },
-        },
-      },
+      options: getChartOptions(
+        CHART_COLOR_CONFIG.tickColor,
+        CHART_COLOR_CONFIG.gridColor,
+        CHART_COLOR_CONFIG.tooltipBg,
+        CHART_COLOR_CONFIG.tooltipBorder
+      ),
     });
   };
 
@@ -217,13 +193,13 @@ export function useAdminDashboard() {
   const handleUpdateBookingStatus = async (bookingId: string, status: "Confirmed" | "Completed" | "Cancelled") => {
     setActionLoading(bookingId);
     try {
-      await apiFetch(`/api/bookings/${bookingId}`, {
+      await apiFetch(API_ENDPOINTS.bookingsDetail(bookingId), {
         method: "PATCH",
         body: JSON.stringify({ status }),
       });
       loadDashboardData();
     } catch (err: any) {
-      alert(err.message || "Failed to update booking status");
+      alert(err.message || ADMIN_STRINGS.errorUpdateBooking);
     } finally {
       setActionLoading(null);
     }
@@ -231,31 +207,31 @@ export function useAdminDashboard() {
 
   const handleUpdateUserRole = async (userId: string, currentRole: string) => {
     const newRole = currentRole === "admin" ? "user" : "admin";
-    if (!confirm(`Are you sure you want to change this user's role to ${newRole}?`)) return;
+    if (!confirm(ADMIN_STRINGS.confirmUserRoleChange(newRole))) return;
     setActionLoading(userId);
     try {
-      await apiFetch("/api/users", {
+      await apiFetch(API_ENDPOINTS.users, {
         method: "PATCH",
         body: JSON.stringify({ userId, role: newRole }),
       });
       loadDashboardData();
     } catch (err: any) {
-      alert(err.message || "Failed to update user role");
+      alert(err.message || ADMIN_STRINGS.errorUpdateUserRole);
     } finally {
       setActionLoading(null);
     }
   };
 
   const handleDeleteEvent = async (eventId: string) => {
-    if (!confirm("Are you sure you want to delete this event? This action is permanent.")) return;
+    if (!confirm(ADMIN_STRINGS.confirmDeleteEvent)) return;
     setActionLoading(eventId);
     try {
-      await apiFetch(`/api/events/${eventId}`, {
+      await apiFetch(API_ENDPOINTS.eventsDetail(eventId), {
         method: "DELETE",
       });
       loadDashboardData();
     } catch (err: any) {
-      alert(err.message || "Failed to delete event");
+      alert(err.message || ADMIN_STRINGS.errorDeleteEvent);
     } finally {
       setActionLoading(null);
     }

@@ -5,6 +5,12 @@ import Sidebar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import StatCardComponent from "../../components/StatCard";
 import { useAdminDashboard } from "../hooks/useAdminDashboard";
+import {
+  STATS_CARDS_DEFINITIONS,
+  BOOKING_STATUS_STYLES,
+  USER_ROLE_STYLES,
+  ADMIN_STRINGS,
+} from "./admin.constants";
 
 export default function AdminDashboard() {
   const {
@@ -33,39 +39,31 @@ export default function AdminDashboard() {
     );
   }
 
-  // Map analytics metrics to StatCard structure
-  const statsCards = [
-    {
-      id: "stat-revenue",
-      title: "Total Revenue",
-      value: `$${analytics.totalRevenue.toLocaleString()}`,
-      change: "+8.3% vs last month",
-      isPositive: true,
-      icon: "payments",
-      iconBgClass: "bg-primary-container/20",
-      iconTextClass: "text-primary-container",
-    },
-    {
-      id: "stat-bookings",
-      title: "Active Bookings",
-      value: bookings.filter((b) => b.status === "Pending" || b.status === "Confirmed").length.toString(),
-      change: "+12.1% vs last month",
-      isPositive: true,
-      icon: "confirmation_number",
-      iconBgClass: "bg-secondary-container/20",
-      iconTextClass: "text-secondary",
-    },
-    {
-      id: "stat-users",
-      title: "Platform Users",
-      value: users.length.toString(),
-      change: `+${users.filter((u) => u.role === "user").length} standard users`,
-      isPositive: true,
-      icon: "group",
-      iconBgClass: "bg-tertiary-container/20",
-      iconTextClass: "text-tertiary",
-    },
-  ];
+  // Map analytics metrics to StatCard structure using definitions from constants
+  const statsCards = STATS_CARDS_DEFINITIONS.map((def) => {
+    let value = "";
+    let change = def.change || "";
+
+    if (def.id === "stat-revenue") {
+      value = `$${analytics.totalRevenue.toLocaleString()}`;
+    } else if (def.id === "stat-bookings") {
+      value = bookings.filter((b) => b.status === "Pending" || b.status === "Confirmed").length.toString();
+    } else if (def.id === "stat-users") {
+      value = users.length.toString();
+      change = `+${users.filter((u) => u.role === "user").length} standard users`;
+    }
+
+    return {
+      id: def.id,
+      title: def.title,
+      value,
+      change,
+      isPositive: def.isPositive,
+      icon: def.icon,
+      iconBgClass: def.iconBgClass,
+      iconTextClass: def.iconTextClass,
+    };
+  });
 
   return (
     <div className="bg-surface text-on-surface font-body-md text-body-md antialiased min-h-screen flex w-full">
@@ -100,7 +98,7 @@ export default function AdminDashboard() {
                 onClick={() => router.push("/events/create")}
                 className="bg-primary text-on-primary px-6 py-2.5 rounded-full font-label-md text-label-md hover:bg-primary-container hover:shadow-sm transition-all cursor-pointer"
               >
-                + Create Event
+                {ADMIN_STRINGS.createEventBtn}
               </button>
             )}
           </div>
@@ -108,7 +106,7 @@ export default function AdminDashboard() {
           {loadingData ? (
             <div className="bg-surface-container-lowest rounded-2xl p-12 text-center border border-outline-variant/30">
               <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-on-surface-variant">Syncing database changes...</p>
+              <p className="text-on-surface-variant">{ADMIN_STRINGS.syncingData}</p>
             </div>
           ) : (
             <>
@@ -124,7 +122,7 @@ export default function AdminDashboard() {
                     <div className="bg-surface-container-lowest rounded-xl p-gutter ambient-shadow border border-outline-variant/30 md:col-span-2 min-h-[300px]">
                       <div className="flex items-center justify-between mb-6">
                         <h2 className="font-headline-md text-headline-md text-on-surface">
-                          Weekly Booking Trends
+                          {ADMIN_STRINGS.weeklyTrendsTitle}
                         </h2>
                       </div>
                       <div className="relative h-[250px] w-full">
@@ -136,7 +134,7 @@ export default function AdminDashboard() {
                     <div className="bg-surface-container-lowest rounded-xl p-gutter ambient-shadow border border-outline-variant/30 flex flex-col justify-between">
                       <div>
                         <h2 className="font-headline-md text-headline-md text-on-surface mb-6">
-                          Quick Actions
+                          {ADMIN_STRINGS.quickActionsTitle}
                         </h2>
                         <div className="space-y-4">
                           <button
@@ -145,8 +143,8 @@ export default function AdminDashboard() {
                           >
                             <span className="material-symbols-outlined text-primary">event</span>
                             <div>
-                              <span className="block font-label-md text-label-md text-on-surface">Manage Events</span>
-                              <span className="block font-label-sm text-label-sm text-on-surface-variant">Update active listings</span>
+                              <span className="block font-label-md text-label-md text-on-surface">{ADMIN_STRINGS.manageEventsLabel}</span>
+                              <span className="block font-label-sm text-label-sm text-on-surface-variant">{ADMIN_STRINGS.manageEventsDesc}</span>
                             </div>
                           </button>
                           <button
@@ -155,8 +153,8 @@ export default function AdminDashboard() {
                           >
                             <span className="material-symbols-outlined text-secondary">group</span>
                             <div>
-                              <span className="block font-label-md text-label-md text-on-surface">Manage Users</span>
-                              <span className="block font-label-sm text-label-sm text-on-surface-variant">Edit roles & accounts</span>
+                              <span className="block font-label-md text-label-md text-on-surface">{ADMIN_STRINGS.manageUsersLabel}</span>
+                              <span className="block font-label-sm text-label-sm text-on-surface-variant">{ADMIN_STRINGS.manageUsersDesc}</span>
                             </div>
                           </button>
                         </div>
@@ -173,31 +171,23 @@ export default function AdminDashboard() {
                     <table className="w-full text-left border-collapse">
                       <thead>
                         <tr className="border-b border-outline-variant/30 bg-surface-container-low">
-                          <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
-                            Cover
-                          </th>
-                          <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
-                            Event Title
-                          </th>
-                          <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
-                            Category
-                          </th>
-                          <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
-                            Location
-                          </th>
-                          <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
-                            Price
-                          </th>
-                          <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold text-right">
-                            Actions
-                          </th>
+                          {ADMIN_STRINGS.eventsTableHeaders.map((header, idx) => (
+                            <th
+                              key={header}
+                              className={`px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold ${
+                                idx === ADMIN_STRINGS.eventsTableHeaders.length - 1 ? "text-right" : ""
+                              }`}
+                            >
+                              {header}
+                            </th>
+                          ))}
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-outline-variant/20">
                         {events.length === 0 ? (
                           <tr>
-                            <td colSpan={6} className="px-6 py-12 text-center text-on-surface-variant">
-                              No events found in database. Click Create Event to add one.
+                            <td colSpan={ADMIN_STRINGS.eventsTableHeaders.length} className="px-6 py-12 text-center text-on-surface-variant">
+                              {ADMIN_STRINGS.noEvents}
                             </td>
                           </tr>
                         ) : (
@@ -228,7 +218,7 @@ export default function AdminDashboard() {
                                   disabled={actionLoading === evt._id}
                                   className="text-error border border-error/20 hover:bg-error/10 px-3 py-1.5 rounded-full font-label-sm text-label-sm cursor-pointer disabled:opacity-50"
                                 >
-                                  Delete
+                                  {ADMIN_STRINGS.deleteBtn}
                                 </button>
                               </td>
                             </tr>
@@ -247,18 +237,16 @@ export default function AdminDashboard() {
                     <table className="w-full text-left border-collapse">
                       <thead>
                         <tr className="border-b border-outline-variant/30 bg-surface-container-low">
-                          <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
-                            Name
-                          </th>
-                          <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
-                            Email
-                          </th>
-                          <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
-                            Current Role
-                          </th>
-                          <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold text-right">
-                            Toggle Role
-                          </th>
+                          {ADMIN_STRINGS.usersTableHeaders.map((header, idx) => (
+                            <th
+                              key={header}
+                              className={`px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold ${
+                                idx === ADMIN_STRINGS.usersTableHeaders.length - 1 ? "text-right" : ""
+                              }`}
+                            >
+                              {header}
+                            </th>
+                          ))}
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-outline-variant/20">
@@ -273,9 +261,7 @@ export default function AdminDashboard() {
                             <td className="px-6 py-4">
                               <span
                                 className={`px-2 py-0.5 rounded text-xs font-semibold uppercase ${
-                                  user.role === "admin"
-                                    ? "bg-primary-container/10 text-primary border border-primary-container/20"
-                                    : "bg-surface-variant text-on-surface-variant"
+                                  USER_ROLE_STYLES[user.role] || USER_ROLE_STYLES.user
                                 }`}
                               >
                                 {user.role}
@@ -287,7 +273,7 @@ export default function AdminDashboard() {
                                 disabled={actionLoading === user._id || user._id === session.user.id}
                                 className="text-secondary border border-secondary/20 hover:bg-secondary/10 px-4 py-1.5 rounded-full font-label-sm text-label-sm cursor-pointer disabled:opacity-30 disabled:pointer-events-none"
                               >
-                                {user.role === "admin" ? "Demote to User" : "Promote to Admin"}
+                                {user.role === "admin" ? ADMIN_STRINGS.demoteBtn : ADMIN_STRINGS.promoteBtn}
                               </button>
                             </td>
                           </tr>
@@ -305,31 +291,23 @@ export default function AdminDashboard() {
                     <table className="w-full text-left border-collapse">
                       <thead>
                         <tr className="border-b border-outline-variant/30 bg-surface-container-low">
-                          <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
-                            Event Title
-                          </th>
-                          <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
-                            Customer
-                          </th>
-                          <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
-                            Details
-                          </th>
-                          <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
-                            Total amount
-                          </th>
-                          <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
-                            Status
-                          </th>
-                          <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold text-right">
-                            Actions
-                          </th>
+                          {ADMIN_STRINGS.bookingsTableHeaders.map((header, idx) => (
+                            <th
+                              key={header}
+                              className={`px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold ${
+                                idx === ADMIN_STRINGS.bookingsTableHeaders.length - 1 ? "text-right" : ""
+                              }`}
+                            >
+                              {header}
+                            </th>
+                          ))}
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-outline-variant/20">
                         {bookings.length === 0 ? (
                           <tr>
-                            <td colSpan={6} className="px-6 py-12 text-center text-on-surface-variant">
-                              No bookings found in database.
+                            <td colSpan={ADMIN_STRINGS.bookingsTableHeaders.length} className="px-6 py-12 text-center text-on-surface-variant">
+                              {ADMIN_STRINGS.noBookings}
                             </td>
                           </tr>
                         ) : (
@@ -352,13 +330,7 @@ export default function AdminDashboard() {
                               <td className="px-6 py-4">
                                 <span
                                   className={`px-2 py-0.5 rounded-full text-xs font-semibold border ${
-                                    booking.status === "Confirmed"
-                                      ? "bg-primary-container/10 border-primary-container/20 text-primary"
-                                      : booking.status === "Pending"
-                                      ? "bg-secondary-container/10 border-secondary-container/20 text-secondary"
-                                      : booking.status === "Completed"
-                                      ? "bg-surface-container-high border-outline-variant/30 text-on-surface-variant"
-                                      : "bg-error-container/10 border-error-container/20 text-error"
+                                    BOOKING_STATUS_STYLES[booking.status] || ""
                                   }`}
                                 >
                                   {booking.status}
@@ -372,7 +344,7 @@ export default function AdminDashboard() {
                                       disabled={actionLoading === booking._id}
                                       className="text-primary border border-primary/20 hover:bg-primary/10 px-3 py-1 rounded-full font-label-sm text-label-sm cursor-pointer disabled:opacity-50"
                                     >
-                                      Confirm
+                                      {ADMIN_STRINGS.confirmBtn}
                                     </button>
                                   )}
                                   {booking.status === "Confirmed" && (
@@ -381,7 +353,7 @@ export default function AdminDashboard() {
                                       disabled={actionLoading === booking._id}
                                       className="text-secondary border border-secondary/20 hover:bg-secondary/10 px-3 py-1 rounded-full font-label-sm text-label-sm cursor-pointer disabled:opacity-50"
                                     >
-                                      Complete
+                                      {ADMIN_STRINGS.completeBtn}
                                     </button>
                                   )}
                                   {booking.status !== "Cancelled" && booking.status !== "Completed" && (
@@ -390,7 +362,7 @@ export default function AdminDashboard() {
                                       disabled={actionLoading === booking._id}
                                       className="text-error border border-error/20 hover:bg-error/10 px-3 py-1 rounded-full font-label-sm text-label-sm cursor-pointer disabled:opacity-50"
                                     >
-                                      Cancel
+                                      {ADMIN_STRINGS.cancelBtn}
                                     </button>
                                   )}
                                 </div>
