@@ -225,12 +225,17 @@ export default function EventDetailsPage({ params }: { params: Promise<{ id: str
                 </div>
               </div>
 
-              {/* Booking Form */}
               {bookingSuccess ? (
                 <div className="bg-primary-container/15 border border-primary-container/20 p-6 rounded-2xl text-center text-primary space-y-2">
-                  <span className="material-symbols-outlined text-4xl animate-bounce">check_circle</span>
-                  <h3 className="font-headline-md text-headline-md">Booking Successful!</h3>
-                  <p className="font-label-sm text-label-sm">Redirecting to your dashboard...</p>
+                  <span className={`material-symbols-outlined text-4xl ${event.price > 0 ? "animate-pulse" : "animate-bounce"}`}>
+                    {event.price > 0 ? "lock" : "check_circle"}
+                  </span>
+                  <h3 className="font-headline-md text-headline-md">
+                    {event.price > 0 ? "Booking Initiated" : "Booking Successful!"}
+                  </h3>
+                  <p className="font-label-sm text-label-sm">
+                    {event.price > 0 ? "Redirecting to secure payment..." : "Redirecting to your dashboard..."}
+                  </p>
                 </div>
               ) : (
                 <form onSubmit={handleBooking} className="pt-4 space-y-4 border-t border-outline-variant/20">

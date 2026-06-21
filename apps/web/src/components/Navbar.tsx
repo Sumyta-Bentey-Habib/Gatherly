@@ -1,247 +1,190 @@
 "use client";
 
-import { useState } from "react";
-import styles from "./components.module.css";
-import { useNavbarScroll } from "../app/hooks/useNavbarScroll";
-import { useSession, signOut } from "../lib/auth-client";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/src/app/hooks/useAuth";
 
-interface NavbarProps {
-  activePage?: "explore" | "features" | "about" | "contact" | "";
-}
+const navLinks = [
+  { name: "Explore", href: "/explore" },
+  { name: "About", href: "/about" },
+  { name: "Contact", href: "/contact" },
+];
 
-export default function Navbar({ activePage = "" }: NavbarProps) {
-  const isScrolled = useNavbarScroll();
-  const { data: session, isPending } = useSession();
+export default function Navbar() {
+  const pathname = usePathname();
   const router = useRouter();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const handleSignOut = async () => {
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleLogout = async () => {
     await signOut();
     router.push("/");
-    router.refresh();
   };
 
   return (
-    <header
-      className={`fixed top-4 left-1/2 -translate-x-1/2 w-[92%] max-w-container-max z-50 rounded-full border border-outline-variant/30 backdrop-blur-xl transition-all duration-300 ${
-        isScrolled ? "bg-white/85 shadow-ambient-deep py-1" : "bg-white/60 shadow-ambient py-2"
-      }`}
-      id="main-nav"
-    >
-      <div className="mx-auto px-6 flex justify-between items-center h-16">
-        {/* Brand */}
-        <a
-          className="font-display-lg text-headline-md tracking-tight text-primary flex items-center gap-2 hover:scale-105 transition-all duration-300 pl-2"
-          href="/"
-        >
-          <span className={`material-symbols-outlined text-primary ${styles.iconFilled}`}>
-            eco
-          </span>
-          <span className="font-bold">Gatherly</span>
-        </a>
+    <>
+      <header
+        className={`fixed top-4 left-1/2 -translate-x-1/2 w-[92%] max-w-7xl z-50 transition-all duration-500 rounded-full px-8 py-3 flex justify-between items-center bg-black/75 backdrop-blur-xl border border-white/10 ${
+          scrolled ? "scale-[0.99] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.35)]" : "scale-100 shadow-xl"
+        }`}
+      >
+        <Link href="/" className="font-serif text-2xl font-bold text-white tracking-tight">
+          Gatherly
+        </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-2">
-          <a
-            className={`font-label-md text-label-md px-4 py-2 rounded-full transition-all duration-300 ${
-              activePage === "explore"
-                ? "bg-primary text-on-primary shadow-sm font-semibold"
-                : "text-on-surface-variant hover:text-primary hover:bg-surface-container/50"
-            }`}
-            href="/"
-          >
-            Explore
-          </a>
-          <a
-            className={`font-label-md text-label-md px-4 py-2 rounded-full transition-all duration-300 ${
-              activePage === "features"
-                ? "bg-primary text-on-primary shadow-sm font-semibold"
-                : "text-on-surface-variant hover:text-primary hover:bg-surface-container/50"
-            }`}
-            href="/features"
-          >
-            Features
-          </a>
-          <a
-            className={`font-label-md text-label-md px-4 py-2 rounded-full transition-all duration-300 ${
-              activePage === "about"
-                ? "bg-primary text-on-primary shadow-sm font-semibold"
-                : "text-on-surface-variant hover:text-primary hover:bg-surface-container/50"
-            }`}
-            href="/about"
-          >
-            About
-          </a>
-          <a
-            className={`font-label-md text-label-md px-4 py-2 rounded-full transition-all duration-300 ${
-              activePage === "contact"
-                ? "bg-primary text-on-primary shadow-sm font-semibold"
-                : "text-on-surface-variant hover:text-primary hover:bg-surface-container/50"
-            }`}
-            href="/contact"
-          >
-            Contact
-          </a>
+        <nav className="hidden md:flex items-center gap-6">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`font-sans text-xs font-semibold uppercase tracking-widest pb-0.5 transition-all duration-300 hover:text-white hover:scale-105 border-b ${
+                  isActive ? "text-white border-white" : "text-white/60 border-transparent"
+                }`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Actions */}
-        <div className="hidden md:flex items-center gap-4 pr-2">
-          {isPending ? (
-            <div className="w-16 h-8 bg-surface-container-high rounded-full animate-pulse"></div>
-          ) : session ? (
-            <div className="flex items-center gap-3">
-              <span className="font-label-md text-label-md text-on-surface-variant font-medium">
-                Hi, {session.user.name.split(" ")[0]}
-              </span>
-              <a
-                className="text-secondary font-label-md text-label-md hover:text-primary transition-all duration-300 px-4 py-2 hover:bg-surface-container/50 rounded-full"
-                href={session.user.role === "admin" ? "/admin" : "/dashboard"}
+        <div className="flex items-center gap-4">
+          {user ? (
+            <>
+              <Link
+                href={user.role === "admin" ? "/admin" : "/dashboard"}
+                className="hidden md:inline-block font-sans text-xs font-bold uppercase tracking-widest bg-white text-black px-5 py-2.5 rounded-full hover:scale-105 hover:bg-zinc-200 transition-all"
               >
                 Dashboard
-              </a>
-              {session.user.role === "admin" && (
-                <a
-                  className="bg-primary-container text-on-primary font-label-md text-label-md px-5 py-2.5 rounded-full hover:shadow-ambient hover:-translate-y-0.5 transition-all duration-300 active:scale-95 font-semibold"
-                  href="/events/create"
-                >
-                  Create Event
-                </a>
-              )}
+              </Link>
               <button
-                onClick={handleSignOut}
-                className="text-error font-label-md text-label-md hover:bg-error-container/10 transition-all duration-300 px-4 py-2 rounded-full cursor-pointer"
+                onClick={handleLogout}
+                className="hidden md:inline-block font-sans text-xs font-bold uppercase tracking-widest bg-transparent text-white border border-white/40 px-5 py-2.5 rounded-full hover:scale-105 hover:bg-white/10 hover:border-white transition-all cursor-pointer"
               >
-                Sign Out
+                Logout
               </button>
-            </div>
+            </>
           ) : (
-            <div className="flex items-center gap-2">
-              <a
-                className="text-secondary font-label-md text-label-md hover:text-primary transition-all duration-300 px-4 py-2 hover:bg-surface-container/50 rounded-full"
-                href="/login"
-              >
-                Sign In
-              </a>
-              <a
-                className="bg-primary text-on-primary font-label-md text-label-md px-6 py-2.5 rounded-full hover:shadow-ambient-deep hover:-translate-y-0.5 transition-all duration-300 active:scale-95 font-semibold"
-                href="/register"
-              >
-                Sign Up
-              </a>
-            </div>
+            <Link
+              href="/login"
+              className="hidden md:inline-block font-sans text-xs font-bold uppercase tracking-widest bg-white text-black px-5 py-2.5 rounded-full hover:scale-105 hover:bg-zinc-200 transition-all"
+            >
+              Login
+            </Link>
           )}
-        </div>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden text-on-surface p-2 hover:bg-surface-container/50 rounded-full transition-colors cursor-pointer mr-2"
-          aria-label="Toggle Menu"
-        >
-          <span className="material-symbols-outlined">
-            {isMobileMenuOpen ? "close" : "menu"}
-          </span>
-        </button>
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden w-8 h-8 rounded-full border border-white/20 bg-transparent text-white flex items-center justify-center hover:bg-white/10 active:scale-95 transition-all cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-base">
+              {mobileMenuOpen ? "close" : "menu"}
+            </span>
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile Drawer */}
+      {mobileMenuOpen && (
+        <div
+          className="md:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+      <div
+        className={`md:hidden fixed top-20 right-4 w-64 rounded-2xl bg-black/90 backdrop-blur-xl border border-white/10 p-6 z-45 transition-all duration-300 shadow-2xl ${
+          mobileMenuOpen ? "translate-y-0 scale-100 opacity-100 pointer-events-auto" : "-translate-y-4 scale-95 opacity-0 pointer-events-none"
+        }`}
+      >
+        <nav className="flex flex-col gap-6">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`font-sans text-sm uppercase tracking-widest pb-1 border-b transition-all duration-300 hover:text-white ${
+                  isActive ? "font-bold text-white border-white" : "font-medium text-white/60 border-transparent"
+                }`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
+
+          {user ? (
+            <>
+              <Link
+                href={user.role === "admin" ? "/admin" : "/dashboard"}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`font-sans text-sm uppercase tracking-widest pb-1 border-b transition-all duration-300 hover:text-white ${
+                  pathname === "/dashboard" || pathname === "/admin" ? "font-bold text-white border-white" : "font-medium text-white/60 border-transparent"
+                }`}
+              >
+                Dashboard
+              </Link>
+              <button
+                onClick={() => {
+                  handleLogout();
+                  setMobileMenuOpen(false);
+                }}
+                className="font-sans text-sm font-medium uppercase tracking-widest pb-1 border-none bg-transparent text-left cursor-pointer text-white/60 hover:text-white transition-all duration-300"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link
+              href="/login"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`font-sans text-sm uppercase tracking-widest pb-1 border-b transition-all duration-300 hover:text-white ${
+                pathname === "/login" ? "font-bold text-white border-white" : "font-medium text-white/60 border-transparent"
+              }`}
+            >
+              Login
+            </Link>
+          )}
+        </nav>
       </div>
 
-      {/* Mobile Menu Drawer */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-20 left-0 w-full bg-white/95 backdrop-blur-xl border border-outline-variant/30 rounded-3xl p-6 shadow-ambient-deep flex flex-col gap-4 animate-in fade-in slide-in-from-top-4 duration-300">
-          <nav className="flex flex-col gap-2">
-            <a
-              className={`font-label-md text-label-md p-3 rounded-xl transition-all ${
-                activePage === "explore" ? "bg-primary/10 text-primary font-bold" : "text-on-surface-variant"
+      {/* Bottom Mobile Navigation */}
+      <nav className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[85%] bg-black/90 border border-white/10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] z-50 flex justify-between items-center px-5 py-2.5 rounded-full select-none">
+        {[
+          { href: "/", icon: "home", label: "Home" },
+          { href: "/explore", icon: "explore", label: "Explore" },
+          { href: "/dashboard?tab=wishlist", icon: "favorite", label: "Saved" },
+          { href: user?.role === "admin" ? "/admin" : "/dashboard", icon: "person", label: "Profile" },
+        ].map(({ href, icon, label }) => {
+          const isActive = pathname === href || (href.includes("dashboard") && pathname === "/dashboard");
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={`flex flex-col items-center justify-center p-2 rounded-full transition-all duration-300 ${
+                isActive ? "text-white bg-white/10" : "text-white/60 bg-transparent"
               }`}
-              href="/"
-              onClick={() => setIsMobileMenuOpen(false)}
             >
-              Explore
-            </a>
-            <a
-              className={`font-label-md text-label-md p-3 rounded-xl transition-all ${
-                activePage === "features" ? "bg-primary/10 text-primary font-bold" : "text-on-surface-variant"
-              }`}
-              href="/features"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Features
-            </a>
-            <a
-              className={`font-label-md text-label-md p-3 rounded-xl transition-all ${
-                activePage === "about" ? "bg-primary/10 text-primary font-bold" : "text-on-surface-variant"
-              }`}
-              href="/about"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              About
-            </a>
-            <a
-              className={`font-label-md text-label-md p-3 rounded-xl transition-all ${
-                activePage === "contact" ? "bg-primary/10 text-primary font-bold" : "text-on-surface-variant"
-              }`}
-              href="/contact"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Contact
-            </a>
-          </nav>
-          
-          <div className="border-t border-outline-variant/20 pt-4 flex flex-col gap-3">
-            {isPending ? (
-              <div className="h-10 bg-surface-container-high rounded-xl animate-pulse"></div>
-            ) : session ? (
-              <>
-                <span className="font-label-md text-label-md text-on-surface-variant px-3">
-                  Signed in as <strong>{session.user.name}</strong>
-                </span>
-                <a
-                  className="bg-surface-container-low text-secondary font-label-md text-label-md p-3 rounded-xl text-center hover:bg-surface-container transition-colors"
-                  href={session.user.role === "admin" ? "/admin" : "/dashboard"}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Dashboard
-                </a>
-                {session.user.role === "admin" && (
-                  <a
-                    className="bg-primary-container text-on-primary font-label-md text-label-md p-3 rounded-xl text-center font-semibold"
-                    href="/events/create"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Create Event
-                  </a>
-                )}
-                <button
-                  onClick={() => {
-                    handleSignOut();
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="bg-error/10 text-error font-label-md text-label-md p-3 rounded-xl text-center hover:bg-error/20 transition-colors cursor-pointer"
-                >
-                  Sign Out
-                </button>
-              </>
-            ) : (
-              <div className="flex flex-col gap-2">
-                <a
-                  className="bg-surface-container-low text-secondary font-label-md text-label-md p-3 rounded-xl text-center hover:bg-surface-container transition-colors"
-                  href="/login"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Sign In
-                </a>
-                <a
-                  className="bg-primary text-on-primary font-label-md text-label-md p-3 rounded-xl text-center font-semibold"
-                  href="/register"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Sign Up
-                </a>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-    </header>
+              <span className="material-symbols-outlined text-base">{icon}</span>
+              <span className="font-sans text-[9px] font-medium mt-0.5">{label}</span>
+            </Link>
+          );
+        })}
+      </nav>
+    </>
   );
 }

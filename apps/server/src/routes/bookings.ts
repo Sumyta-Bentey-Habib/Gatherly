@@ -9,7 +9,7 @@ const router = Router();
 router.get("/", authMiddleware, getBookings);
 router.post("/", authMiddleware, validateRequest(createBookingSchema), createBooking);
 router.get("/:id", authMiddleware, getBookingById);
-router.patch("/:id", adminMiddleware, validateRequest(updateBookingStatusSchema), updateBookingStatus);
+router.patch("/:id", authMiddleware, validateRequest(updateBookingStatusSchema), updateBookingStatus);
 router.delete("/:id", authMiddleware, deleteBooking);
 
 export default router;

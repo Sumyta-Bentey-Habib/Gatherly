@@ -9,7 +9,7 @@ export default function About() {
   return (
     <div className="font-body-md text-body-md antialiased overflow-x-hidden landing-page">
       {/* TopNavBar */}
-      <Navbar activePage="about" />
+      <Navbar />
 
       {/* Hero Section */}
       <section className={`relative pt-32 pb-20 md:pt-48 md:pb-28 overflow-hidden ${styles.aboutHeroBg}`}>

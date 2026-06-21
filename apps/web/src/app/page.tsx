@@ -15,7 +15,7 @@ export default function Home() {
 
   return (
     <div className="font-body-md text-body-md antialiased overflow-x-hidden landing-page bg-surface text-on-surface">
-      <Navbar activePage="explore" />
+      <Navbar />
 
       <Hero />
 

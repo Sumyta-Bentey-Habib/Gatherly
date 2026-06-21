@@ -111,6 +111,23 @@ export function useDashboard() {
     return b.status === bookingFilter;
   });
 
+  const handleCompleteBooking = async (bookingId: string) => {
+    if (!confirm("Have you attended this event? Mark as completed?")) return;
+    setActionLoading(bookingId);
+    try {
+      await apiFetch(`/api/bookings/${bookingId}`, {
+        method: "PATCH",
+        body: JSON.stringify({ status: "Completed" })
+      });
+      const updated = await apiFetch("/api/bookings");
+      setBookings(updated);
+    } catch (err: any) {
+      alert(err.message || "Failed to complete booking");
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
   return {
     session,
     isPending,
@@ -127,6 +144,7 @@ export function useDashboard() {
     setBookingFilter,
     handleCancelBooking,
     handleRemoveWishlist,
+    handleCompleteBooking,
     filteredBookings,
   };
 }

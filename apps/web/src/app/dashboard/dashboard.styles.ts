@@ -1,0 +1,1267 @@
+"use client";
+
+import styled from "styled-components";
+import { motion } from "framer-motion";
+
+export const DashPage = styled.div`
+  min-height: 100vh;
+  display: flex;
+  background: #080c14;
+  color: #f0f4ff;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+`;
+
+export const MobileOverlay = styled(motion.div)`
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+`;
+
+export const DashSidebar = styled.aside<{ $open: boolean }>`
+  width: 260px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #0d1422 0%, #0a111d 100%);
+  border-right: 1px solid rgba(232, 184, 75, 0.08);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: 40;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: ${props => props.$open ? "translateX(0)" : "translateX(-100%)"};
+
+  @media (min-width: 1024px) {
+    position: relative;
+    transform: none;
+    margin: 16px 0 16px 16px;
+    height: calc(100vh - 32px);
+    border-radius: 20px;
+    border: 1px solid rgba(232, 184, 75, 0.10);
+    box-shadow: 0 0 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+`;
+
+export const DashMain = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100vh;
+  overflow: hidden;
+`;
+
+export const DashTopbar = styled.header`
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: rgba(13, 20, 34, 0.8);
+  border-bottom: 1px solid rgba(232, 184, 75, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  @media (min-width: 1024px) {
+    margin: 16px 16px 0 16px;
+    border-radius: 16px;
+    border: 1px solid rgba(232, 184, 75, 0.08);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  }
+`;
+
+export const MobileMenuBtn = styled.button`
+  display: none;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #8899b0;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 10px;
+  transition: all 0.2s;
+
+  &:hover {
+    background: rgba(232, 184, 75, 0.12);
+    color: #e8b84b;
+    border-color: rgba(232, 184, 75, 0.25);
+  }
+
+  @media (max-width: 1023px) {
+    display: block;
+  }
+`;
+
+export const DashContent = styled.main`
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(232, 184, 75, 0.2);
+    border-radius: 99px;
+  }
+
+  @media (min-width: 768px) {
+    padding: 24px;
+  }
+`;
+
+export const SidebarBrandWrapper = styled.div`
+  padding: 22px 20px;
+  border-bottom: 1px solid rgba(232, 184, 75, 0.08);
+`;
+
+export const BrandIcon = styled.div<{ $variant?: "blue" | "purple" }>`
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #e8b84b 0%, #c9952d 100%);
+  box-shadow: 0 4px 16px rgba(232, 184, 75, 0.35), inset 0 1px 0 rgba(255,255,255,0.2);
+`;
+
+export const SidebarUserCard = styled.div`
+  margin: 14px;
+  padding: 14px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(232, 184, 75, 0.08), rgba(201, 149, 45, 0.04));
+  border: 1px solid rgba(232, 184, 75, 0.12);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(232, 184, 75, 0.06);
+    pointer-events: none;
+  }
+`;
+
+export const UserAvatar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #080c14;
+  background: linear-gradient(135deg, #e8b84b 0%, #c9952d 100%);
+  flex-shrink: 0;
+  border-radius: 9999px;
+  width: 32px;
+  height: 32px;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 12px rgba(232, 184, 75, 0.35);
+`;
+
+export const SidebarNav = styled.nav`
+  flex: 1;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar { width: 0; }
+`;
+
+export const DashNavBtn = styled.button<{ $active: boolean }>`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+
+  border: 1px solid ${props => props.$active ? "rgba(232, 184, 75, 0.25)" : "transparent"};
+  color: ${props => props.$active ? "#e8b84b" : "#8899b0"};
+  background: ${props => props.$active
+    ? "linear-gradient(135deg, rgba(232, 184, 75, 0.12), rgba(201, 149, 45, 0.06))"
+    : "transparent"};
+  box-shadow: ${props => props.$active ? "0 2px 16px rgba(232, 184, 75, 0.08)" : "none"};
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: ${props => props.$active ? "60%" : "0%"};
+    background: linear-gradient(to bottom, #e8b84b, #c9952d);
+    border-radius: 0 3px 3px 0;
+    transition: height 0.2s ease;
+  }
+
+  &:hover {
+    background: ${props => props.$active ? "" : "rgba(255,255,255,0.04)"};
+    color: ${props => props.$active ? "#e8b84b" : "#c5d0e0"};
+    border-color: ${props => props.$active ? "" : "rgba(255,255,255,0.06)"};
+  }
+`;
+
+export const SidebarFooter = styled.div`
+  padding: 14px;
+  border-top: 1px solid rgba(232, 184, 75, 0.08);
+`;
+
+export const SignOutBtn = styled.button`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: rgba(255, 80, 80, 0.7);
+  background: transparent;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 77, 79, 0.08);
+    color: #ff4d4f;
+    border-color: rgba(255, 77, 79, 0.2);
+  }
+`;
+
+export const DashHero = styled.div`
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #111927 0%, #0d1422 100%);
+  border: 1px solid rgba(232, 184, 75, 0.12);
+  padding: 36px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+`;
+
+export const DashHeroBg = styled.div`
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.08;
+`;
+
+export const StatsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+`;
+
+export const StatCardBlue = styled.div`
+  background: linear-gradient(135deg, rgba(232, 184, 75, 0.10), rgba(201, 149, 45, 0.05));
+  border: 1px solid rgba(232, 184, 75, 0.18);
+  border-radius: 18px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(232, 184, 75, 0.06);
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(232, 184, 75, 0.10);
+  }
+`;
+
+export const StatCardGreen = styled.div`
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.08), rgba(16, 185, 129, 0.04));
+  border: 1px solid rgba(52, 211, 153, 0.15);
+  border-radius: 18px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(52, 211, 153, 0.05);
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(52, 211, 153, 0.08);
+  }
+`;
+
+export const StatCardAmber = styled.div`
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(109, 40, 217, 0.04));
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  border-radius: 18px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(139, 92, 246, 0.05);
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(139, 92, 246, 0.08);
+  }
+`;
+
+export const DashCard = styled.div`
+  background: #111927;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+`;
+
+export const StatusPill = styled.span<{ $status: string }>`
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+
+  background: ${props =>
+    props.$status === "Completed" ? "rgba(52, 211, 153, 0.12)" :
+    props.$status === "Pending" ? "rgba(232, 184, 75, 0.12)" :
+    "rgba(255, 77, 79, 0.10)"};
+  color: ${props =>
+    props.$status === "Completed" ? "#34d399" :
+    props.$status === "Pending" ? "#e8b84b" :
+    "#ff4d4f"};
+  border: 1px solid ${props =>
+    props.$status === "Completed" ? "rgba(52, 211, 153, 0.25)" :
+    props.$status === "Pending" ? "rgba(232, 184, 75, 0.25)" :
+    "rgba(255, 77, 79, 0.25)"};
+`;
+
+export const EventGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+`;
+
+export const ImageCard = styled(motion.div)<{ $wishlist?: boolean }>`
+  background: #111927;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+
+  &:hover {
+    border-color: ${props => props.$wishlist ? "rgba(139, 92, 246, 0.35)" : "rgba(232, 184, 75, 0.35)"};
+    box-shadow: ${props => props.$wishlist ? "0 16px 40px rgba(139, 92, 246, 0.12)" : "0 16px 40px rgba(232, 184, 75, 0.12)"};
+    transform: translateY(-4px);
+  }
+`;
+
+export const DashTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+`;
+
+export const Textarea = styled.textarea`
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 14px;
+  color: #f0f4ff;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  resize: none;
+  transition: all 0.2s ease;
+
+  &::placeholder {
+    color: #8899b0;
+  }
+
+  &:focus {
+    border-color: rgba(232, 184, 75, 0.50);
+    box-shadow: 0 0 0 3px rgba(232, 184, 75, 0.10);
+  }
+`;
+
+export const BlueButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: linear-gradient(135deg, #e8b84b 0%, #c9952d 100%);
+  color: #080c14;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(232, 184, 75, 0.25);
+  letter-spacing: 0.01em;
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 8px 28px rgba(232, 184, 75, 0.40);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:disabled {
+    background: rgba(255,255,255,0.06);
+    color: #8899b0;
+    border: 1px solid rgba(255,255,255,0.06);
+    cursor: wait;
+    box-shadow: none;
+  }
+`;
+
+export const PinkButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid rgba(232, 184, 75, 0.25);
+  background: rgba(232, 184, 75, 0.10);
+  color: #e8b84b;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: linear-gradient(135deg, #e8b84b, #c9952d);
+    color: #080c14;
+    border-color: transparent;
+    box-shadow: 0 8px 24px rgba(232, 184, 75, 0.30);
+    transform: translateY(-1px);
+  }
+`;
+
+export const SidebarBrandLink = styled.a`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+`;
+
+export const BrandName = styled.span`
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #f0f4ff;
+  text-transform: uppercase;
+`;
+
+export const UserCardInner = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+`;
+
+export const UserAvatarLg = styled(UserAvatar)`
+  width: 40px;
+  height: 40px;
+  font-size: 14px;
+`;
+
+export const UserInfo = styled.div`
+  min-width: 0;
+`;
+
+export const UserName = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #f0f4ff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+export const UserStatusRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 3px;
+`;
+
+export const StatusDot = styled.span<{ $color?: string }>`
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: ${props => props.$color || "#34d399"};
+  display: inline-block;
+  box-shadow: 0 0 6px ${props => props.$color || "#34d399"};
+`;
+
+export const UserRole = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  color: #8899b0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+`;
+
+export const NavActiveDot = styled.span`
+  margin-left: auto;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: #e8b84b;
+  display: inline-block;
+  box-shadow: 0 0 8px rgba(232, 184, 75, 0.6);
+`;
+
+export const TopbarLeft = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;
+
+export const TopbarRight = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+export const TopbarTitle = styled.h1`
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #f0f4ff;
+  letter-spacing: 0.02em;
+`;
+
+export const TopbarSubtitle = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: #8899b0;
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+`;
+
+export const HomeLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(232, 184, 75, 0.18);
+  background: rgba(232, 184, 75, 0.06);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: #e8b84b;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+
+  &:hover {
+    background: rgba(232, 184, 75, 0.12);
+    border-color: rgba(232, 184, 75, 0.35);
+    box-shadow: 0 4px 16px rgba(232, 184, 75, 0.12);
+  }
+`;
+
+export const UserAvatarSm = styled(UserAvatar)`
+  width: 34px;
+  height: 34px;
+  font-size: 12px;
+`;
+
+export const TabPane = styled.div<{ $column?: boolean }>`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+`;
+
+export const TabPaneGap20 = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+export const TabPaneMaxWidth = styled.div`
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+export const HeroOrb = styled.div`
+  position: absolute;
+  top: -40px;
+  left: -40px;
+  width: 320px;
+  height: 220px;
+  background: radial-gradient(ellipse, rgba(232, 184, 75, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+`;
+
+export const HeroContent = styled.div`
+  position: relative;
+  z-index: 1;
+`;
+
+export const HeroTagline = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  color: #e8b84b;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  margin-bottom: 10px;
+  font-weight: 600;
+`;
+
+export const HeroWelcome = styled.h2`
+  font-size: 32px;
+  font-weight: 800;
+  color: #f0f4ff;
+  margin-bottom: 12px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+
+  span {
+    background: linear-gradient(135deg, #e8b84b, #c9952d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+`;
+
+export const HeroDesc = styled.p`
+  color: #8899b0;
+  font-size: 14px;
+  max-width: 520px;
+  line-height: 1.7;
+  margin-bottom: 28px;
+`;
+
+export const HeroActions = styled.div`
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+`;
+
+export const SecondaryBtn = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: #c5d0e0;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: rgba(255,255,255,0.09);
+    color: #f0f4ff;
+    border-color: rgba(255,255,255,0.16);
+  }
+`;
+
+export const StatCardHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+
+export const StatLabel = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: #8899b0;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+`;
+
+export const StatValue = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: #f0f4ff;
+  margin-top: 10px;
+  letter-spacing: -0.02em;
+`;
+
+export const TableHeaderRow = styled.tr`
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+`;
+
+export const TableTh = styled.th`
+  padding: 14px 20px;
+  text-align: left;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #8899b0;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+`;
+
+export const TableTr = styled.tr`
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.15s;
+
+  &:hover {
+    background: rgba(232, 184, 75, 0.03);
+  }
+`;
+
+export const TableTdMono = styled.td`
+  padding: 16px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: #8899b0;
+  font-variant-numeric: tabular-nums;
+`;
+
+export const TableTdTitle = styled.td`
+  padding: 16px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #f0f4ff;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+export const TableTdGray = styled.td`
+  padding: 16px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: #8899b0;
+`;
+
+export const TableTdBold = styled.td`
+  padding: 16px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #e8b84b;
+`;
+
+export const TableTdPad = styled.td`
+  padding: 14px 20px;
+`;
+
+export const CancelBtn = styled.button`
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 77, 79, 0.75);
+  border: 1px solid rgba(255, 77, 79, 0.2);
+  padding: 7px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.2s;
+
+  &:hover {
+    background: rgba(255, 77, 79, 0.10);
+    color: #ff4d4f;
+    border-color: rgba(255, 77, 79, 0.35);
+  }
+`;
+
+export const EmptyCell = styled.td`
+  padding: 60px 20px;
+  text-align: center;
+`;
+
+export const EmptyIcon = styled.span`
+  font-size: 48px;
+  color: #8899b0;
+  display: block;
+  margin-bottom: 12px;
+  opacity: 0.5;
+`;
+
+export const EmptyText = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: #8899b0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+`;
+
+export const BrowseEventsBtn = styled.button`
+  margin-top: 14px;
+  background: none;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: #e8b84b;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
+export const SectionTopRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const SectionTitle = styled.h2`
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: #f0f4ff;
+  letter-spacing: -0.01em;
+`;
+
+export const SectionCount = styled.span`
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: #8899b0;
+  font-weight: 500;
+`;
+
+export const CardHeaderRow = styled.div`
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const CardTitle = styled.h3`
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #f0f4ff;
+  letter-spacing: 0.01em;
+`;
+
+export const ViewAllBtn = styled.button`
+  background: none;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: #e8b84b;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.75;
+  }
+`;
+
+export const BookingRow = styled.div`
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.15s;
+
+  &:hover {
+    background: rgba(232, 184, 75, 0.03);
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+export const BookingLeft = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+`;
+
+export const BookingIconBox = styled.div`
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(232, 184, 75, 0.10);
+  border: 1px solid rgba(232, 184, 75, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+`;
+
+export const BookingInfo = styled.div`
+  min-width: 0;
+`;
+
+export const BookingTitle = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #f0f4ff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+export const BookingId = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: #8899b0;
+  margin-top: 2px;
+`;
+
+export const BookingRight = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+`;
+
+export const BookingAmount = styled.span`
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #e8b84b;
+`;
+
+export const CardImageWrapper = styled.div`
+  position: relative;
+  height: 170px;
+  overflow: hidden;
+`;
+
+export const CardImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6);
+  transition: transform 0.6s ease;
+
+  ${ImageCard}:hover & {
+    transform: scale(1.07);
+  }
+`;
+
+export const CardImgFade = styled.div`
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(8,12,20,0.8) 0%, transparent 55%);
+`;
+
+export const WishlistHeart = styled.div`
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  border-radius: 9999px;
+  background: rgba(255, 77, 79, 0.18);
+  border: 1px solid rgba(255, 77, 79, 0.30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+`;
+
+export const CardPrice = styled.p`
+  position: absolute;
+  bottom: 12px;
+  left: 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: #e8b84b;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+`;
+
+export const CardBody = styled.div`
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+`;
+
+export const CardName = styled.h4`
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #f0f4ff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+`;
+
+export const HelpTitle = styled.h2`
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: #f0f4ff;
+`;
+
+export const HelpInfoBanner = styled.div`
+  background: linear-gradient(135deg, rgba(232, 184, 75, 0.08), rgba(201, 149, 45, 0.04));
+  border: 1px solid rgba(232, 184, 75, 0.18);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+`;
+
+export const HelpInfoIconBox = styled.div`
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(232, 184, 75, 0.14);
+  border: 1px solid rgba(232, 184, 75, 0.20);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+`;
+
+export const HelpInfoTitle = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #f0f4ff;
+  margin-bottom: 6px;
+`;
+
+export const HelpInfoDesc = styled.p`
+  color: #8899b0;
+  font-size: 13px;
+  line-height: 1.65;
+`;
+
+export const HelpFormTitle = styled.h3`
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #f0f4ff;
+  margin-bottom: 20px;
+`;
+
+export const HelpTicketForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+export const HelpFieldLabel = styled.label`
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #8899b0;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  margin-bottom: 6px;
+`;
+
+export const ContactGrid2 = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+`;
+
+export const ContactOption = styled.div<{ $bg: string; $border: string }>`
+  background: ${props => props.$bg};
+  border: 1px solid ${props => props.$border};
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+`;
+
+export const ContactOptionTitle = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #f0f4ff;
+`;
+
+export const ContactOptionDesc = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: #8899b0;
+  margin-top: 2px;
+`;
+
+export const ModalBackdrop = styled(motion.div)`
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.70);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+`;
+
+export const ModalCard = styled(motion.div)`
+  background: linear-gradient(145deg, #111927, #0d1422);
+  border-radius: 24px;
+  border: 1px solid rgba(232, 184, 75, 0.15);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+  width: 100%;
+  max-width: 480px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -60px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(ellipse, rgba(232, 184, 75, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+`;
+
+export const ModalIconBox = styled.div<{ $color?: string }>`
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: ${props => props.$color || "rgba(255, 77, 79, 0.10)"};
+  border: 1px solid ${props => props.$color ? "rgba(232, 184, 75, 0.25)" : "rgba(255, 77, 79, 0.20)"};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: ${props => props.$color ? "#e8b84b" : "#ff4d4f"};
+`;
+
+export const ModalHeaderRow = styled.div`
+  margin-bottom: 12px;
+`;
+
+export const ModalTitle = styled.h3`
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: #f0f4ff;
+  letter-spacing: -0.01em;
+`;
+
+export const ModalDesc = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: #8899b0;
+  line-height: 1.65;
+  margin-bottom: 24px;
+`;
+
+export const ModalActions = styled.div`
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+`;
+
+export const TicketReceipt = styled.div`
+  border: 1px dashed rgba(232, 184, 75, 0.20);
+  background: rgba(232, 184, 75, 0.04);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 24px;
+`;
+
+export const TicketReceiptRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: #8899b0;
+  margin-bottom: 8px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+export const TicketReceiptVal = styled.span`
+  color: #f0f4ff;
+  font-weight: 700;
+`;

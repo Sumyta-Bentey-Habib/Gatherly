@@ -123,7 +123,7 @@ export function useEventDetails(id: string) {
           })
         : event.date || "Upcoming Event";
 
-      await apiFetch("/api/bookings", {
+      const res = await apiFetch("/api/bookings", {
         method: "POST",
         body: JSON.stringify({
           eventId: id,
@@ -136,8 +136,12 @@ export function useEventDetails(id: string) {
 
       setBookingSuccess(true);
       setTimeout(() => {
-        router.push("/dashboard");
-      }, 2000);
+        if (totalAmount > 0 && res.bookingId) {
+          router.push(`/payment/${res.bookingId}`);
+        } else {
+          router.push("/dashboard");
+        }
+      }, 1500);
     } catch (err: any) {
       setBookingError(err.message || "Failed to complete booking.");
     } finally {

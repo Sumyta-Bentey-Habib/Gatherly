@@ -50,7 +50,7 @@ export const bookingsService = {
     const newBooking = {
       ...data,
       userId,
-      status: "Completed",
+      status: "Pending",
       createdAt: new Date(),
     };
     const result = await db.collection("bookings").add(newBooking);

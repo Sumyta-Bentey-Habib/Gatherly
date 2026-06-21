@@ -23,7 +23,7 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-surface font-body-md text-body-md antialiased landing-page">
-      <Navbar activePage="contact" />
+      <Navbar />
 
       {/* Hero Section */}
       <main className="flex-1 flex flex-col pt-32 pb-24 relative overflow-hidden gradient-bg">
