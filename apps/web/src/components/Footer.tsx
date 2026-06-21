@@ -33,7 +33,7 @@ export default function Footer() {
           </a>
           <a
             className="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md"
-            href="#"
+            href="/features"
           >
             Features
           </a>
@@ -56,13 +56,13 @@ export default function Footer() {
           </a>
           <a
             className="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md"
-            href="#"
+            href="/contact"
           >
             Contact
           </a>
           <a
             className="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md"
-            href="#"
+            href="/careers"
           >
             Careers
           </a>
@@ -73,13 +73,13 @@ export default function Footer() {
           </h4>
           <a
             className="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md"
-            href="#"
+            href="/privacy-policy"
           >
             Privacy Policy
           </a>
           <a
             className="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md"
-            href="#"
+            href="/terms-of-service"
           >
             Terms of Service
           </a>

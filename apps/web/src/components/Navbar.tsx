@@ -59,7 +59,7 @@ export default function Navbar({ activePage = "" }: NavbarProps) {
                 ? "bg-primary text-on-primary shadow-sm font-semibold"
                 : "text-on-surface-variant hover:text-primary hover:bg-surface-container/50"
             }`}
-            href="#"
+            href="/features"
           >
             Features
           </a>
@@ -162,7 +162,7 @@ export default function Navbar({ activePage = "" }: NavbarProps) {
               className={`font-label-md text-label-md p-3 rounded-xl transition-all ${
                 activePage === "features" ? "bg-primary/10 text-primary font-bold" : "text-on-surface-variant"
               }`}
-              href="#"
+              href="/features"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Features
