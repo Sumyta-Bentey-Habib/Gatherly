@@ -139,7 +139,7 @@ export function useEventDetails(id: string) {
         if (totalAmount > 0 && res.bookingId) {
           router.push(`/payment/${res.bookingId}`);
         } else {
-          router.push("/dashboard");
+          router.push("/dashboard?section=bookings");
         }
       }, 1500);
     } catch (err: any) {

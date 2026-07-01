@@ -247,7 +247,7 @@ function PaymentContent() {
 
           <ActionButtonGroup>
             <PrimaryBtn
-              onClick={() => router.push("/dashboard")}
+              onClick={() => router.push("/dashboard?section=bookings")}
               style={{ flex: "none", padding: "14px 28px" }}
             >
               Go to Dashboard

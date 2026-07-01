@@ -64,8 +64,24 @@ export function useAdminDashboard() {
   const [events, setEvents] = useState<EventItem[]>([]);
   const [loadingData, setLoadingData] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [isSidebarOpenMobile, setIsSidebarOpenMobile] = useState(false);
 
   const chartInstance = useRef<any>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const searchParams = new URLSearchParams(window.location.search);
+      const tab = searchParams.get("tab") || searchParams.get("section");
+      if (
+        tab === "overview" ||
+        tab === "events" ||
+        tab === "users" ||
+        tab === "bookings"
+      ) {
+        setActiveSection(tab);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (!isPending) {
@@ -253,5 +269,7 @@ export function useAdminDashboard() {
     handleUpdateBookingStatus,
     handleUpdateUserRole,
     handleDeleteEvent,
+    isSidebarOpenMobile,
+    setIsSidebarOpenMobile,
   };
 }

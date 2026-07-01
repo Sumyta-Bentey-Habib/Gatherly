@@ -3,13 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@10.28.0",
+  "description": "Gatherly Monorepo. Commands: Seeding: 'pnpm db:seed', Dev server: 'pnpm dev', Build: 'pnpm build', Production start: 'pnpm start'",
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
     "build:web": "pnpm --filter web build",
     "build:server": "pnpm --filter server build",
+    "start": "turbo run start",
     "start:web": "pnpm --filter web start",
-    "start:server": "pnpm --filter server start"
+    "start:server": "pnpm --filter server start",
+    "db:seed": "pnpm --filter server db:seed"
   },
   "devDependencies": {
     "turbo": "^2.9.16"

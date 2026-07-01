@@ -38,6 +38,21 @@ export function useDashboard() {
   const [bookingFilter, setBookingFilter] = useState<"All" | "Pending" | "Confirmed" | "Completed" | "Cancelled">("All");
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const searchParams = new URLSearchParams(window.location.search);
+      const tab = searchParams.get("tab") || searchParams.get("section");
+      if (
+        tab === "overview" ||
+        tab === "bookings" ||
+        tab === "wishlist" ||
+        tab === "profile"
+      ) {
+        setActiveSection(tab);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     if (!isPending && !session) {
       router.push("/login");
     }

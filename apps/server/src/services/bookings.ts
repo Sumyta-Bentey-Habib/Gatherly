@@ -28,10 +28,17 @@ export const bookingsService = {
     if (!(fetchAll && role === "admin")) {
       query = query.where("userId", "==", userId);
     }
-    const snapshot = await query.orderBy("createdAt", "desc").get();
-    return snapshot.docs.map((doc: any) =>
+    const snapshot = await query.get();
+    const bookings = snapshot.docs.map((doc: any) =>
       convertTimestamps({ _id: doc.id, ...doc.data() })
     );
+    // Sort in-memory to avoid requiring a composite index in Firestore
+    bookings.sort((a: any, b: any) => {
+      const timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+      return timeB - timeA;
+    });
+    return bookings;
   },
 
   async getBookingById(id: string, userId: string, role: string) {

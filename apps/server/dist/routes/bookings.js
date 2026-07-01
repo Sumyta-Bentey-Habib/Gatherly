@@ -1,0 +1,12 @@
+import { Router } from "express";
+import { authMiddleware } from "../middleware/auth.js";
+import { getBookings, createBooking, getBookingById, updateBookingStatus, deleteBooking } from "../controllers/bookings.js";
+import { validateRequest } from "../middleware/validation.js";
+import { createBookingSchema, updateBookingStatusSchema } from "../validation/schemas.js";
+const router = Router();
+router.get("/", authMiddleware, getBookings);
+router.post("/", authMiddleware, validateRequest(createBookingSchema), createBooking);
+router.get("/:id", authMiddleware, getBookingById);
+router.patch("/:id", authMiddleware, validateRequest(updateBookingStatusSchema), updateBookingStatus);
+router.delete("/:id", authMiddleware, deleteBooking);
+export default router;

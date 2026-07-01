@@ -29,6 +29,8 @@ export default function AdminDashboard() {
     handleUpdateBookingStatus,
     handleUpdateUserRole,
     handleDeleteEvent,
+    isSidebarOpenMobile,
+    setIsSidebarOpenMobile,
   } = useAdminDashboard();
 
   if (isPending || !session) {
@@ -76,10 +78,15 @@ export default function AdminDashboard() {
           }
         }}
       />
-      <Sidebar activeSection={activeSection} onSectionChange={setActiveSection} />
+      <Sidebar
+        activeSection={activeSection}
+        onSectionChange={setActiveSection}
+        isOpenMobile={isSidebarOpenMobile}
+        onCloseMobile={() => setIsSidebarOpenMobile(false)}
+      />
 
       <main className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
-        <Topbar />
+        <Topbar onMenuClick={() => setIsSidebarOpenMobile(true)} />
 
         <div className="flex-1 p-margin-mobile md:p-margin-desktop max-w-container-max mx-auto w-full space-y-stack-lg">
           

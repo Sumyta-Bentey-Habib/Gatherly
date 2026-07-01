@@ -2,108 +2,110 @@ import { db } from "./db.js";
 
 const sampleEvents = [
   {
-    title: "Design Leadership Summit",
-    price: 299,
+    title: "Dhaka Tech Summit 2026",
+    price: 15,
     duration: "1 Day",
-    description: "A gathering of top design minds exploring the future of digital product creation and team dynamics.",
-    location: "San Francisco, CA",
-    distanceNote: "2.5 km from City Center",
-    imgUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuBeBvZ_CUepyGnmovfBf_-eZwc3rqxFyRXFZQM2rqXFDhE7zYXFCEgRhPtQ9vMSbimQNnv67UjISG1AwcvB0kkiaIykKC-b06KL8BdNBToFRuhW0cBm41OipvHyNH5xOwInJPa86WvJM10KtUhbuywfUS2BdfFgT2Znecmv7Pc8Cvxff4BBwAYsymQ-Zm1jrNDFOkP61MSZggTcjAEYRgeKybUWz0Ud-MW5XgVPJN8MF63PbhGLoTKebw",
+    description: "The largest tech conference in Bangladesh bringing together developers, designers, and innovators to discuss the future of Web3, AI, and cloud computing.",
+    location: "Dhaka, Bangladesh",
+    distanceNote: "1.2 km from Gulshan Circle",
+    imgUrl: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop",
     popular: true,
-    startDate: "2026-10-24",
-    endDate: "2026-10-24",
-    rating: "9.8",
-    reviews: "96",
-    category: "Design",
+    startDate: "2026-10-15",
+    endDate: "2026-10-15",
+    rating: "9.7",
+    reviews: "128",
+    category: "Technology",
     inclusions: [
-      "Full access pass to all keynote events",
-      "Gourmet lunch and coffee breaks",
-      "Exclusive event workbook and resource pack",
-      "Invitation to the private networking cocktail hours"
+      "Access to all tech sessions & workshops",
+      "Buffet lunch & networking coffee breaks",
+      "Gatherly delegate kit with swag",
+      "Entry to the evening rooftop mixer"
     ],
     itinerary: [
       {
         day: 1,
-        title: "Keynotes & Executive Panel Discussions",
-        description: "Registration opens at 8:00 AM. Keynote sessions start at 9:00 AM covering AI integration in design workflows. Evening cocktail mixer begins at 6:00 PM."
+        title: "AI & Innovation Keynotes",
+        description: "Doors open at 9:00 AM. Keynote talks on the future of AI in Southeast Asia begin at 10:00 AM, followed by track presentations and startup pitching."
       }
     ],
     reviewsBreakdown: {
-      "Speakers": 9.9,
-      "Venue": 9.6,
-      "Content": 9.8,
-      "Networking": 9.7
+      "Speakers": 9.8,
+      "Venue": 9.5,
+      "Content": 9.7,
+      "Swag": 9.6
     }
   },
   {
-    title: "Art & Tech Mixer",
-    price: 0,
-    duration: "3 Hours",
-    description: "An evening of networking for creatives and technologists in a stunning gallery space.",
-    location: "New York, NY",
-    distanceNote: "0.8 km from Metro Station",
-    imgUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuBbH_2m1oEkxUd31uPGJc-fXGQw3-GvMypAiUAfiLtiFDdhC-Ce4GYvPQHk0AZ79TyXLELjpM_-EgyrikXM3gNg8iLHhFEMqRRinl43D7Of0qmE16nPdmQbf9ze7S29w_bXQkuVigAU19ji7ZclEIl0zqR5AlAnwUEvLT48HiSbBUbGF0k6SdZK6aS2MidahlFmNKSCgY-4mDnSmZZS740QAcTDykSKTzZlUfctqT2f36GgINjE8oecfw",
-    popular: true,
-    startDate: "2026-11-05",
-    endDate: "2026-11-05",
-    rating: "9.5",
-    reviews: "45",
-    category: "Networking",
-    inclusions: [
-      "Admission to the contemporary art showcase",
-      "Complimentary wine and premium appetizers",
-      "Interactive digital installation demo access"
-    ],
-    itinerary: [
-      {
-        day: 1,
-        title: "Creative Dialogue & Demos",
-        description: "Open doors at 6:30 PM. Introduction to featured digital artists at 7:00 PM, followed by open networking and interactive system demos."
-      }
-    ],
-    reviewsBreakdown: {
-      "Atmosphere": 9.8,
-      "Refreshments": 9.2,
-      "Organization": 9.4,
-      "Value": 9.7
-    }
-  },
-  {
-    title: "Sustainable Future Expo",
-    price: 150,
+    title: "Cox's Bazar Beach Carnival",
+    price: 25,
     duration: "2 Days",
-    description: "Discover the latest innovations in sustainable technology and eco-friendly business practices.",
-    location: "Austin, TX",
-    distanceNote: "1.2 km from Downtown",
-    imgUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuCyScamyVoRhS7QAcboNWlItepWRrAvauwTa-eXonXHIVwIiTlOHr0bDQkcbdomEWB2GFccW-Y4zpvzjgHftf81Xq-r2CNLJijGRTDyqmlmlFQT0lsTqzFLnF4hUZKSOTlSyn09gXp_wMovakt2M1DOGqLS0ZFFCds3TzyeCuYpceikDq8nIDNSQTHwugHOk4xv87bLyLei8FrOmNztV_Cqrh-ToIIfOUfU6y5SU6iMPMTcXE-fer5z5w",
-    popular: false,
-    startDate: "2026-12-12",
-    endDate: "2026-12-14",
-    rating: "9.2",
-    reviews: "112",
-    category: "Conference",
+    description: "Experience the ultimate beach festival at the world's longest natural sandy beach. Enjoy local music, fire dances, and mouth-watering seafood.",
+    location: "Cox's Bazar, Bangladesh",
+    distanceNote: "0.5 km from Laboni Beach",
+    imgUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop",
+    popular: true,
+    startDate: "2026-11-20",
+    endDate: "2026-11-21",
+    rating: "9.9",
+    reviews: "210",
+    category: "Music & Festival",
     inclusions: [
-      "Access to all green-tech exhibitor zones",
-      "Workshops led by environmental scientists",
-      "Sustainable product sample gift box"
+      "2-Day general admission pass",
+      "Complimentary BBQ dinner buffet",
+      "Beach volleyball tourney registration",
+      "Exclusive concert wristband"
     ],
     itinerary: [
       {
         day: 1,
-        title: "Exhibitor Showroom & Panels",
-        description: "Explore over 100 eco-tech booths. Panels start at 10:30 AM focusing on circular economics."
+        title: "Beach Sports & Sunsets",
+        description: "Kick off at 2:00 PM with sports. Enjoy local food stalls during sunset, followed by beachside acoustic sessions."
       },
       {
         day: 2,
-        title: "Action-Oriented Workshops",
-        description: "Practical breakout sessions on carbon footprint accounting and transition strategy. Closing ceremony at 4:00 PM."
+        title: "Mega Concert & Fire Show",
+        description: "Live DJ acts starting at 4:00 PM. Headline bands perform until midnight, closed by an epic fire dance showcase."
       }
     ],
     reviewsBreakdown: {
-      "Exhibits": 9.4,
-      "Educational Value": 9.5,
-      "Logistics": 9.0,
-      "Eco-Commitment": 9.8
+      "Atmosphere": 10.0,
+      "Music": 9.9,
+      "Food": 9.8,
+      "Location": 10.0
+    }
+  },
+  {
+    title: "Sylhet Tea Garden Retreat",
+    price: 0,
+    duration: "5 Hours",
+    description: "Unwind with a peaceful morning walking tour through the lush green tea gardens of Sreemangal, followed by a local seven-color tea tasting session.",
+    location: "Sylhet, Bangladesh",
+    distanceNote: "3 km from Sreemangal Town",
+    imgUrl: "https://images.unsplash.com/photo-1595841696660-327549241e8e?q=80&w=2070&auto=format&fit=crop",
+    popular: false,
+    startDate: "2026-12-05",
+    endDate: "2026-12-05",
+    rating: "9.4",
+    reviews: "84",
+    category: "Nature & Travel",
+    inclusions: [
+      "Guided tour through historic tea estates",
+      "Tasting session of the famous 7-color tea",
+      "Traditional Bengali snack platter",
+      "Transport from Sreemangal center"
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Walking Tour & Tea Tasting",
+        description: "Meet at 8:00 AM. 3-hour guided nature walk, ending at a local cottage for tea tasting and snack platter by 12:30 PM."
+      }
+    ],
+    reviewsBreakdown: {
+      "Scenery": 9.8,
+      "Guide": 9.6,
+      "Tea Quality": 9.5,
+      "Value": 9.2
     }
   }
 ];

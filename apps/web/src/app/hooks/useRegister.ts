@@ -27,6 +27,7 @@ export function useRegister() {
         // we can pass custom fields like role directly to signUp.email:
         // @ts-ignore
         role,
+        callbackURL: "/dashboard",
       });
 
       if (response.error) {
