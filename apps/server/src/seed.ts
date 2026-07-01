@@ -813,6 +813,83 @@ const sampleEvents = [
       "Food": 9.3,
       "Value": 9.2
     }
+  },
+  {
+    title: "Keokradong Hiking Challenge",
+    price: 30,
+    duration: "3 Days",
+    description: "Trek to the peak of Keokradong, one of the highest peaks in Bangladesh. Experience remote tribal villages, cascading streams, and misty mountain horizons.",
+    location: "Bandarban, Bangladesh",
+    distanceNote: "From Ruma Bazar",
+    imgUrl: "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop",
+    popular: false,
+    startDate: "2026-11-05",
+    endDate: "2026-11-07",
+    rating: "9.6",
+    reviews: "74",
+    category: "Nature & Travel",
+    inclusions: [
+      "Local guide & forest trek entry permits",
+      "Accommodation in indigenous bamboo cottages",
+      "Traditional hilltop meals",
+      "Return Chander Gari transfer from Ruma"
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Ruma Bazar to Boga Lake",
+        description: "Take the 4x4 ride to Boga Lake. Overnight stay in a lakeside cottage next to the mysterious volcanic lake."
+      },
+      {
+        day: 2,
+        title: "Summiting Keokradong Peak",
+        description: "Hike early morning past Chingri waterfalls to the Keokradong summit. Enjoy majestic views and stay at the peak village."
+      },
+      {
+        day: 3,
+        title: "Descent & Departure",
+        description: "Trek down to Boga Lake and take the Chander Gari back to Ruma Bazar for departure."
+      }
+    ],
+    reviewsBreakdown: {
+      "Adventure": 9.8,
+      "Scenery": 9.7,
+      "Guide": 9.5,
+      "Cottage Vibe": 9.4
+    }
+  },
+  {
+    title: "Dhaka Pitha & Winter Cake Fest",
+    price: 5,
+    duration: "6 Hours",
+    description: "Celebrate the arrival of Bengali winter! Taste over 30 varieties of traditional pithas (rice cakes) like Bhapa, Chitoi, and Patishapta.",
+    location: "Dhaka, Bangladesh",
+    distanceNote: "TSC, Dhaka University",
+    imgUrl: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=2070&auto=format&fit=crop",
+    popular: true,
+    startDate: "2026-12-18",
+    endDate: "2026-12-18",
+    rating: "9.5",
+    reviews: "142",
+    category: "Food & Culinary",
+    inclusions: [
+      "Entry voucher & unlimited tea/cha",
+      "6 select gourmet pitha tokens",
+      "Traditional folk puppet show access"
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Winter Pitha Celebration",
+        description: "Festivities open at 3:00 PM. Enjoy hot steamed pithas directly from earthen stoves while Bauls perform in the background."
+      }
+    ],
+    reviewsBreakdown: {
+      "Taste": 9.8,
+      "Atmosphere": 9.5,
+      "Variety": 9.6,
+      "Value": 9.3
+    }
   }
 ];
 
