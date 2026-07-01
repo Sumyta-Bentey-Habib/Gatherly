@@ -24,7 +24,7 @@ export default function EventCard({ event }: EventCardProps) {
   const image = event.imgUrl || event.imageUrl || "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4";
   
   const formattedPrice = typeof event.price === "number"
-    ? (event.price === 0 ? "Free" : `$${event.price}`)
+    ? (event.price === 0 ? "Free" : `BDT ${event.price}`)
     : event.price;
 
   const formattedDate = event.startDate

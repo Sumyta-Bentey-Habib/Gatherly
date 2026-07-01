@@ -253,7 +253,7 @@ function PaymentContent({ bookingId }: { bookingId: string }) {
             </ReceiptRow>
             <ReceiptRow style={{ borderTop: "1px solid rgba(196, 199, 199, 0.2)", paddingTop: "12px", fontWeight: "bold", fontSize: "14px", color: "#000000" }}>
               <ReceiptLabel style={{ opacity: 1 }}>Amount Paid:</ReceiptLabel>
-              <span style={{ color: "#705d00" }}>${booking.totalAmount.toLocaleString()}</span>
+              <span style={{ color: "#705d00" }}>BDT {booking.totalAmount.toLocaleString()}</span>
             </ReceiptRow>
           </SuccessReceipt>
 
@@ -411,7 +411,7 @@ function PaymentContent({ bookingId }: { bookingId: string }) {
                   onClick={handlePaymentSubmit}
                   disabled={!cardNumber || !cardHolder || !cardExpiry || !cardCvv}
                 >
-                  Pay ${booking.totalAmount.toLocaleString()} Securely
+                  Pay BDT {booking.totalAmount.toLocaleString()} Securely
                 </PayButton>
               </div>
             )}
@@ -643,15 +643,15 @@ function PaymentContent({ bookingId }: { bookingId: string }) {
               <CostBox>
                 <CostRow>
                   <span>Booking Subtotal:</span>
-                  <span style={{ color: "#000000", fontWeight: "bold" }}>${(booking.totalAmount * 0.96).toLocaleString()}</span>
+                  <span style={{ color: "#000000", fontWeight: "bold" }}>BDT {(booking.totalAmount * 0.96).toLocaleString()}</span>
                 </CostRow>
                 <CostRow>
                   <span>Service Tax (4%):</span>
-                  <span style={{ color: "#000000", fontWeight: "bold" }}>${(booking.totalAmount * 0.04).toLocaleString()}</span>
+                  <span style={{ color: "#000000", fontWeight: "bold" }}>BDT {(booking.totalAmount * 0.04).toLocaleString()}</span>
                 </CostRow>
                 <CostTotalRow>
                   <span>Total Amount:</span>
-                  <span style={{ color: "#705d00" }}>${booking.totalAmount.toLocaleString()}</span>
+                  <span style={{ color: "#705d00" }}>BDT {booking.totalAmount.toLocaleString()}</span>
                 </CostTotalRow>
               </CostBox>
             </div>

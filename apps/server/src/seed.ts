@@ -3,7 +3,7 @@ import { db } from "./db.js";
 const sampleEvents = [
   {
     title: "Dhaka Tech Summit 2026",
-    price: 15,
+    price: 1500,
     duration: "1 Day",
     description: "The largest tech conference in Bangladesh bringing together developers, designers, and innovators to discuss Web3, AI, and Cloud computing.",
     location: "Dhaka, Bangladesh",
@@ -37,7 +37,7 @@ const sampleEvents = [
   },
   {
     title: "Cox's Bazar Beach Carnival",
-    price: 25,
+    price: 2500,
     duration: "2 Days",
     description: "Experience the ultimate beach festival at the world's longest natural sandy beach. Enjoy local music, fire dances, and delicious seafood.",
     location: "Cox's Bazar, Bangladesh",
@@ -76,7 +76,7 @@ const sampleEvents = [
   },
   {
     title: "Sylhet Tea Garden Retreat",
-    price: 0,
+    price: 10000,
     duration: "5 Hours",
     description: "Unwind with a peaceful morning walking tour through the lush green tea gardens of Sreemangal, followed by a seven-color tea tasting.",
     location: "Sylhet, Bangladesh",
@@ -110,7 +110,7 @@ const sampleEvents = [
   },
   {
     title: "Sreemangal Adventure Trek",
-    price: 10,
+    price: 1000,
     duration: "1 Day",
     description: "Trek through the dense forests of Lawachara National Park and discover rare wildlife, bird species, and indigenous villages.",
     location: "Sreemangal, Bangladesh",
@@ -144,7 +144,7 @@ const sampleEvents = [
   },
   {
     title: "Chittagong Hill Tracts Tour",
-    price: 45,
+    price: 4500,
     duration: "3 Days",
     description: "An unforgettable journey into Bandarban. Hike up Nilgiri, visit golden temples, and take a boat ride on the breathtaking Sangu River.",
     location: "Bandarban, Bangladesh",
@@ -188,7 +188,7 @@ const sampleEvents = [
   },
   {
     title: "Dhaka Food & Biryani Fest",
-    price: 8,
+    price: 8000,
     duration: "6 Hours",
     description: "Explore the historic lanes of Old Dhaka and feast on legendary delicacies like Kacchi Biryani, Bakarkhani, and Lassi.",
     location: "Old Dhaka, Bangladesh",
@@ -222,7 +222,7 @@ const sampleEvents = [
   },
   {
     title: "Sundarbans Wildlife Safari",
-    price: 80,
+    price: 8000,
     duration: "4 Days",
     description: "Deep dive into the world's largest mangrove forest. Search for the majestic Royal Bengal Tiger, spotted deer, and wild boars.",
     location: "Sundarbans, Bangladesh",
@@ -271,7 +271,7 @@ const sampleEvents = [
   },
   {
     title: "Dhaka Art & Photography Expo",
-    price: 5,
+    price: 500,
     duration: "2 Days",
     description: "Exhibit of contemporary Bangladeshi art and photography highlighting the fast-evolving urban landscapes of Dhaka.",
     location: "Dhaka, Bangladesh",
@@ -347,7 +347,7 @@ const sampleEvents = [
   },
   {
     title: "Sajek Valley Star-gazing Tour",
-    price: 35,
+    price: 3500,
     duration: "2 Days",
     description: "Escape to Sajek Valley, the queen of hills. Sleep above the clouds and watch the Milky Way rise from your wooden cottage balcony.",
     location: "Sajek, Bangladesh",
@@ -386,7 +386,7 @@ const sampleEvents = [
   },
   {
     title: "Dhaka Startup Meetup",
-    price: 12,
+    price: 1200,
     duration: "4 Hours",
     description: "Connect with angel investors, startup founders, and tech operators in Dhaka's premier co-working space.",
     location: "Gulshan, Dhaka",
@@ -419,7 +419,7 @@ const sampleEvents = [
   },
   {
     title: "Tanguar Haor Houseboat Tour",
-    price: 55,
+    price: 5500,
     duration: "2 Days",
     description: "Live on a luxurious traditional wooden houseboat on the vast waters of Tanguar Haor, surrounded by the Meghalaya hills.",
     location: "Sunamganj, Bangladesh",
@@ -458,7 +458,7 @@ const sampleEvents = [
   },
   {
     title: "Chittagong Sea Food Festival",
-    price: 15,
+    price: 1500,
     duration: "8 Hours",
     description: "Indulge in freshly grilled crabs, lobsters, red snappers, and squids spiced with traditional Chittagonian masala.",
     location: "Chittagong, Bangladesh",
@@ -491,7 +491,7 @@ const sampleEvents = [
   },
   {
     title: "Rajshahi Mango & Silk Fest",
-    price: 5,
+    price: 500,
     duration: "1 Day",
     description: "Celebrate the heritage of Rajshahi! Taste authentic mango-based dishes and explore traditional silk weaving factories.",
     location: "Rajshahi, Bangladesh",
@@ -524,7 +524,7 @@ const sampleEvents = [
   },
   {
     title: "St. Martin's Coral Escape",
-    price: 40,
+    price: 4000,
     duration: "2 Days",
     description: "Travel to Bangladesh's only coral island. Cycle around Chera Dwip and enjoy fresh coconut water under palm trees.",
     location: "St. Martin's Island, Bangladesh",
@@ -563,7 +563,7 @@ const sampleEvents = [
   },
   {
     title: "Dhaka International Film Festival",
-    price: 20,
+    price: 2000,
     duration: "3 Days",
     description: "Screenings of award-winning independent films and documentaries from South Asia and beyond, with guest directors.",
     location: "Dhaka, Bangladesh",
@@ -639,7 +639,7 @@ const sampleEvents = [
   },
   {
     title: "Dhaka Marathon & Health Expo",
-    price: 10,
+    price: 1000,
     duration: "1 Day",
     description: "Join thousands of runners in a half-marathon through the scenic lakeside roads of Hatirjheel, promoting health and fitness.",
     location: "Hatirjheel, Dhaka",
@@ -706,7 +706,7 @@ const sampleEvents = [
   },
   {
     title: "Comilla Khadi & Rasmalai Tour",
-    price: 8,
+    price: 800,
     duration: "6 Hours",
     description: "Learn about Comilla's historic swadeshi Khadi weavers and treat yourself to the original Comilla Rasmalai.",
     location: "Comilla, Bangladesh",
@@ -739,7 +739,7 @@ const sampleEvents = [
   },
   {
     title: "Sylhet Rainy Season Adventure",
-    price: 30,
+    price: 3000,
     duration: "2 Days",
     description: "Experience the monsoons in Sylhet! Take a boat ride through the flooded swamp forest of Ratargul and visit Jaflong.",
     location: "Sylhet, Bangladesh",
@@ -778,7 +778,7 @@ const sampleEvents = [
   },
   {
     title: "Kuakata Sunrise & Sunset Tour",
-    price: 30,
+    price: 3000,
     duration: "2 Days",
     description: "Travel to Kuakata, the daughter of the sea. Watch both the sunrise and sunset from the same sandy beach.",
     location: "Kuakata, Bangladesh",
@@ -816,7 +816,7 @@ const sampleEvents = [
   },
   {
     title: "Keokradong Hiking Challenge",
-    price: 30,
+    price: 3000,
     duration: "3 Days",
     description: "Trek to the peak of Keokradong, one of the highest peaks in Bangladesh. Experience remote tribal villages, cascading streams, and misty mountain horizons.",
     location: "Bandarban, Bangladesh",
@@ -860,7 +860,7 @@ const sampleEvents = [
   },
   {
     title: "Dhaka Pitha & Winter Cake Fest",
-    price: 5,
+    price: 500,
     duration: "6 Hours",
     description: "Celebrate the arrival of Bengali winter! Taste over 30 varieties of traditional pithas (rice cakes) like Bhapa, Chitoi, and Patishapta.",
     location: "Dhaka, Bangladesh",

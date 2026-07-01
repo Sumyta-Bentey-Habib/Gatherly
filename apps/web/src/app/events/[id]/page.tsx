@@ -180,7 +180,7 @@ export default function EventDetailsPage({ params }: { params: Promise<{ id: str
                 <div>
                   <span className="block font-label-sm text-label-sm text-on-surface-variant mb-1">Price per guest</span>
                   <span className="font-display-lg text-display-lg text-primary font-bold">
-                    {event.price === 0 ? "Free" : `$${event.price}`}
+                    {event.price === 0 ? "Free" : `BDT ${event.price}`}
                   </span>
                 </div>
                 {/* Wishlist Button */}

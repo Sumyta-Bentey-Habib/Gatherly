@@ -261,7 +261,7 @@ export default function UserDashboard() {
                                 {booking.guests} Guest(s)
                               </span>
                               <span className="flex items-center gap-1 font-semibold text-primary">
-                                ${booking.totalAmount} Paid
+                                BDT {booking.totalAmount} Paid
                               </span>
                             </div>
                           </div>
@@ -346,7 +346,7 @@ export default function UserDashboard() {
 
                             <div className="flex justify-between items-center pt-4 border-t border-outline-variant/20 mt-4">
                               <span className="font-display-lg text-lg text-primary font-bold">
-                                {event.price === 0 ? "Free" : `$${event.price}`}
+                                {event.price === 0 ? "Free" : `BDT ${event.price}`}
                               </span>
                               <div className="flex items-center gap-2">
                                 <button

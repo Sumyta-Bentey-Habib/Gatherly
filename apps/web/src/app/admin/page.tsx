@@ -47,7 +47,7 @@ export default function AdminDashboard() {
     let change = def.change || "";
 
     if (def.id === "stat-revenue") {
-      value = `$${analytics.totalRevenue.toLocaleString()}`;
+      value = `BDT ${analytics.totalRevenue.toLocaleString()}`;
     } else if (def.id === "stat-bookings") {
       value = bookings.filter((b) => b.status === "Pending" || b.status === "Confirmed").length.toString();
     } else if (def.id === "stat-users") {
@@ -217,7 +217,7 @@ export default function AdminDashboard() {
                                 {evt.location}
                               </td>
                               <td className="px-6 py-4 font-semibold text-primary">
-                                {evt.price === 0 ? "Free" : `$${evt.price}`}
+                                {evt.price === 0 ? "Free" : `BDT ${evt.price}`}
                               </td>
                               <td className="px-6 py-4 text-right">
                                 <div className="flex justify-end gap-2">
@@ -340,7 +340,7 @@ export default function AdminDashboard() {
                                 <span className="block">Guests: {booking.guests}</span>
                               </td>
                               <td className="px-6 py-4 font-semibold text-primary">
-                                ${booking.totalAmount}
+                                BDT {booking.totalAmount}
                               </td>
                               <td className="px-6 py-4">
                                 <span

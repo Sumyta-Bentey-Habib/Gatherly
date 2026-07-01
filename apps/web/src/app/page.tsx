@@ -19,7 +19,7 @@ export default function Home() {
 
       <Hero />
 
-      <ExploreEvents {...exploreEventsState} />
+      <ExploreEvents {...exploreEventsState} limit={3} />
 
       <FeaturesBento />
       <HowItWorks />

@@ -12,6 +12,7 @@ interface ExploreEventsProps {
   popularCategories: string[];
   handleSearch: (e?: React.FormEvent) => void;
   handleCategoryClick: (category: string) => void;
+  limit?: number;
 }
 
 export default function ExploreEvents({
@@ -25,7 +26,11 @@ export default function ExploreEvents({
   popularCategories,
   handleSearch,
   handleCategoryClick,
+  limit,
 }: ExploreEventsProps) {
+  const displayedEvents = limit ? filteredEvents.slice(0, limit) : filteredEvents;
+  const showExploreMore = limit && filteredEvents.length > limit;
+
   return (
     <>
       {/* Dynamic Search & Categories Section */}
@@ -151,11 +156,24 @@ export default function ExploreEvents({
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter">
-              {filteredEvents.map((event) => (
-                <EventCard key={event._id || event.id} event={event} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+                {displayedEvents.map((event) => (
+                  <EventCard key={event._id || event.id} event={event} />
+                ))}
+              </div>
+              {showExploreMore && (
+                <div className="flex justify-center mt-12">
+                  <a
+                    href="/explore"
+                    className="bg-primary text-on-primary px-8 py-3.5 rounded-full font-label-md text-label-md shadow-lg hover:shadow-primary/30 hover:bg-on-primary-container transition-all duration-300 flex items-center gap-2 cursor-pointer font-semibold"
+                  >
+                    Explore More
+                    <span className="material-symbols-outlined text-base">arrow_forward</span>
+                  </a>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
