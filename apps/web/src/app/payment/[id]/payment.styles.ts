@@ -1,642 +1,678 @@
 "use client";
 
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
+
+const floatGlow = keyframes`
+  0% { transform: translateY(0px); box-shadow: 0 20px 40px rgba(0, 64, 45, 0.2); }
+  50% { transform: translateY(-4px); box-shadow: 0 25px 50px rgba(0, 64, 45, 0.28); }
+  100% { transform: translateY(0px); box-shadow: 0 20px 40px rgba(0, 64, 45, 0.2); }
+`;
 
 export const PaymentContainer = styled.main`
   min-height: 100vh;
-  background-color: #f8f9fa;
-  color: #191c1d;
+  background: radial-gradient(circle at 10% 10%, rgba(0, 108, 77, 0.06) 0%, transparent 40%),
+              radial-gradient(circle at 90% 90%, rgba(62, 180, 137, 0.08) 0%, transparent 40%),
+              #f6faf7;
+  color: #171d1a;
   padding-top: 100px;
   padding-bottom: 96px;
+  font-family: 'Inter', sans-serif;
 `;
 
 export const GridWrapper = styled.div`
-  max-width: 1280px;
+  max-width: 1240px;
   margin: 0 auto;
   padding: 0 24px;
 `;
 
-export const BreadcrumbButton = styled.button`
+export const TopNavigation = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+`;
+
+export const BackButton = styled.button`
+  display: inline-flex;
+  align-items: center;
   gap: 8px;
-  color: rgba(25, 28, 29, 0.7);
-  background: none;
-  border: none;
-  font-family: monospace;
-  font-size: 10px;
+  color: #006c4d;
+  background: #ffffff;
+  border: 1px solid rgba(0, 108, 77, 0.18);
+  padding: 10px 18px;
+  border-radius: 24px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
   cursor: pointer;
-  padding: 0;
-  margin-bottom: 16px;
-  transition: color 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 108, 77, 0.04);
+  transition: all 0.2s ease;
 
   &:hover {
-    color: #000000;
+    background: #006c4d;
+    color: #ffffff;
+    border-color: #006c4d;
+    transform: translateX(-3px);
   }
 
   .material-symbols-outlined {
-    font-size: 12px;
+    font-size: 18px;
   }
 `;
 
-export const PageTitle = styled.h1`
-  font-family: 'Playfair Display', serif;
-  font-size: 32px;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  color: #000000;
-
-  @media (min-width: 768px) {
-    font-size: 40px;
-  }
-`;
-
-export const PageSubtitle = styled.p`
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(25, 28, 29, 0.6);
-  margin-top: 4px;
-`;
-
-export const ContentLayout = styled.div`
-  display: grid;
-  grid-template-cols: 1fr;
-  gap: 48px;
-  margin-top: 32px;
-  align-items: start;
-
-  @media (min-width: 1024px) {
-    grid-template-cols: repeat(12, 1fr);
-  }
-`;
-
-export const PaymentFormPanel = styled.div`
-  background-color: #ffffff;
-  border: 1px solid rgba(196, 199, 199, 0.3);
-  border-radius: 24px;
-  padding: 24px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-
-  @media (min-width: 768px) {
-    padding: 32px;
-  }
-
-  @media (min-width: 1024px) {
-    grid-column: span 8;
-  }
-`;
-
-export const TabHeader = styled.div`
-  display: flex;
-  border-bottom: 1px solid rgba(196, 199, 199, 0.2);
-  padding-bottom: 16px;
-  margin-bottom: 32px;
-  overflow-x: auto;
-  gap: 8px;
-  user-select: none;
-`;
-
-export const TabButton = styled.button<{ $active: boolean }>`
-  padding: 12px 16px;
-  display: flex;
+export const SecurityPill = styled.div`
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  border-radius: 16px;
-  font-family: monospace;
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(0, 108, 77, 0.08);
+  border: 1px solid rgba(0, 108, 77, 0.15);
+  border-radius: 24px;
   font-size: 12px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  background-color: ${props => props.$active ? "#000000" : "transparent"};
-  color: ${props => props.$active ? "#ffffff" : "rgba(25, 28, 29, 0.8)"};
-  border: 1px solid ${props => props.$active ? "#000000" : "transparent"};
-
-  &:hover {
-    background-color: ${props => props.$active ? "#000000" : "#f1f3f4"};
-  }
+  color: #006c4d;
 
   .material-symbols-outlined {
     font-size: 16px;
   }
 `;
 
-export const TabTitle = styled.h3`
-  font-family: monospace;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: rgba(25, 28, 29, 0.6);
-  margin-bottom: 16px;
-  user-select: none;
-`;
-
-// Mock Card Styles
-export const CardPreview = styled.div`
-  width: 100%;
-  max-width: 384px;
-  height: 192px;
-  background: linear-gradient(135deg, #1c1d1f 0%, #0d0e10 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 24px;
-  color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  user-select: none;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  margin-bottom: 32px;
-`;
-
-export const CardHeader = styled.div`
-  display: flex;
-  justify-content: border-between;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-export const CardSystemLabel = styled.span`
-  font-family: monospace;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  opacity: 0.6;
-`;
-
-export const CardBrand = styled.span<{ $brandColor: string }>`
-  font-family: 'Playfair Display', serif;
-  font-size: 18px;
-  font-weight: 700;
-  font-style: italic;
-  color: ${props => props.$brandColor};
-`;
-
-export const CardNumberDisplay = styled.div`
-  font-family: monospace;
-  font-size: 18px;
-  letter-spacing: 0.15em;
-`;
-
-export const CardFooter = styled.div`
-  display: flex;
-  justify-content: space-between;
-  font-family: monospace;
-  font-size: 10px;
-  text-transform: uppercase;
-  opacity: 0.8;
-`;
-
-export const CardHolderBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-export const CardDetailLabel = styled.div`
-  opacity: 0.5;
-  font-size: 8px;
-  margin-bottom: 2px;
-`;
-
-export const CardDetailValue = styled.div`
-  font-weight: bold;
-`;
-
-// Card fields layout
-export const CardFieldsGrid = styled.div`
+export const MainSplitLayout = styled.div`
   display: grid;
   grid-template-cols: 1fr;
-  gap: 24px;
-
-  @media (min-width: 768px) {
-    grid-template-cols: repeat(2, 1fr);
-  }
-`;
-
-export const FieldWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-export const FieldLabel = styled.label`
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #191c1d;
-  user-select: none;
-`;
-
-export const FieldInput = styled.input`
-  width: 100%;
-  border: 1px solid rgba(196, 199, 199, 1);
-  border-radius: 12px;
-  padding: 14px;
-  background-color: #ffffff;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  color: #000000;
-  outline: none;
-  transition: border-color 0.2s ease;
-
-  &:focus {
-    border-color: #000000;
-  }
-
-  &::placeholder {
-    color: rgba(25, 28, 29, 0.3);
-  }
-`;
-
-export const PayButton = styled.button`
-  width: 100%;
-  padding: 16px;
-  background-color: #000000;
-  color: #ffffff;
-  border: 1px solid #000000;
-  border-radius: 9999px;
-  font-family: monospace;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 32px;
-
-  &:hover:not(:disabled) {
-    background-color: #526069;
-    border-color: #526069;
-  }
-
-  &:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-`;
-
-// Summary Card Styles
-export const SummaryCard = styled.div`
-  background-color: #ffffff;
-  border: 1px solid rgba(196, 199, 199, 0.3);
-  padding: 24px;
-  border-radius: 24px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-
-  @media (min-width: 768px) {
-    padding: 32px;
-  }
+  gap: 32px;
+  align-items: start;
 
   @media (min-width: 1024px) {
-    grid-column: span 4;
-    position: sticky;
-    top: 112px;
+    grid-template-cols: 5fr 7fr;
   }
 `;
 
-export const SummaryHeader = styled.h3`
-  font-family: monospace;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: rgba(25, 28, 29, 0.6);
-  border-bottom: 1px solid rgba(196, 199, 199, 0.2);
-  padding-bottom: 16px;
-  user-select: none;
+// LEFT SIDE: Dark Luxury Event Showcase
+export const EventSummaryCard = styled.div`
+  background: linear-gradient(155deg, #05241b 0%, #003d2b 55%, #001b11 100%);
+  border-radius: 28px;
+  padding: 32px;
+  color: #ffffff;
+  box-shadow: 0 24px 60px rgba(0, 33, 21, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+
+  @media (min-width: 1024px) {
+    position: sticky;
+    top: 110px;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -40%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(134, 248, 200, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
 `;
 
-export const SummaryTourTitle = styled.h4`
-  font-family: monospace;
-  font-size: 14px;
+export const SummaryBadge = styled.span`
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(134, 248, 200, 0.15);
+  border: 1px solid rgba(134, 248, 200, 0.3);
+  color: #86f8c8;
+  border-radius: 20px;
+  font-size: 11px;
   font-weight: 700;
-  color: #000000;
   text-transform: uppercase;
-  line-height: 1.4;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
 `;
 
-export const DetailRow = styled.div`
+export const EventTitle = styled.h2`
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: #ffffff;
+  margin-bottom: 20px;
+`;
+
+export const DetailsGrid = styled.div`
   display: grid;
-  grid-template-cols: repeat(2, 1fr);
+  grid-template-cols: 1fr 1fr;
   gap: 16px;
-  border-top: 1px solid rgba(196, 199, 199, 0.2);
-  border-bottom: 1px solid rgba(196, 199, 199, 0.2);
   padding: 16px 0;
-  font-family: monospace;
-  font-size: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 20px;
 `;
 
-export const DetailCell = styled.div`
+export const DetailItem = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
 `;
 
 export const DetailLabel = styled.span`
-  opacity: 0.5;
+  font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
-  font-size: 9px;
-  user-select: none;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.6);
 `;
 
-export const DetailVal = styled.span`
-  font-weight: bold;
-  color: #000000;
+export const DetailValue = styled.span`
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
 `;
 
-export const CostBox = styled.div`
-  background-color: #f1f3f4;
-  border: 1px solid rgba(196, 199, 199, 0.2);
-  border-radius: 16px;
-  padding: 20px;
+// Dark Glass Coupon
+export const DarkCouponBox = styled.div`
+  margin-bottom: 24px;
+`;
+
+export const DarkCouponRow = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+`;
+
+export const DarkCouponInput = styled.input`
+  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  outline: none;
+
+  &:focus {
+    border-color: #86f8c8;
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
+`;
+
+export const DarkCouponBtn = styled.button`
+  background: #3eb489;
+  color: #002115;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #86f8c8;
+  }
+`;
+
+export const PricingSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  font-family: monospace;
-  font-size: 12px;
-  color: #444748;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 18px;
+  padding: 18px;
 `;
 
-export const CostRow = styled.div`
+export const PriceRow = styled.div`
   display: flex;
   justify-content: space-between;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
 `;
 
-export const CostTotalRow = styled.div`
-  border-top: 1px solid rgba(196, 199, 199, 0.2);
-  padding-top: 12px;
+export const TotalPriceRow = styled.div`
   display: flex;
   justify-content: space-between;
-  font-weight: bold;
-  font-size: 16px;
-  color: #000000;
-  text-transform: uppercase;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: #86f8c8;
 `;
 
-// Provider Grid
-export const ProviderGrid = styled.div`
+// RIGHT SIDE: White Modern Checkout Form Panel
+export const CheckoutPanel = styled.div`
+  background: #ffffff;
+  border: 1px solid rgba(0, 108, 77, 0.12);
+  border-radius: 28px;
+  padding: 32px;
+  box-shadow: 0 20px 50px rgba(0, 40, 29, 0.06);
+
+  @media (min-width: 768px) {
+    padding: 40px;
+  }
+`;
+
+export const SectionHeader = styled.div`
+  margin-bottom: 24px;
+`;
+
+export const FormTitle = styled.h3`
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: #002115;
+  margin-bottom: 4px;
+`;
+
+export const FormSubtitle = styled.p`
+  font-size: 13px;
+  color: #5d6d64;
+`;
+
+// 2-Method Segmented Switcher (Cards vs Mobile Banking)
+export const SegmentedControl = styled.div`
+  display: flex;
+  background: #edf4f0;
+  padding: 6px;
+  border-radius: 18px;
+  margin-bottom: 32px;
+  gap: 6px;
+`;
+
+export const SegmentBtn = styled.button<{ $active: boolean }>`
+  flex: 1;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 14px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border: none;
+
+  background-color: ${props => props.$active ? "#006c4d" : "transparent"};
+  color: ${props => props.$active ? "#ffffff" : "#3d4943"};
+  box-shadow: ${props => props.$active ? "0 6px 18px rgba(0, 108, 77, 0.25)" : "none"};
+
+  &:hover {
+    color: ${props => props.$active ? "#ffffff" : "#006c4d"};
+  }
+
+  .material-symbols-outlined {
+    font-size: 20px;
+  }
+`;
+
+// Card Visual Container
+export const VisualCardBox = styled.div`
+  width: 100%;
+  aspect-ratio: 1.6 / 1;
+  max-width: 380px;
+  margin: 0 auto 28px;
+  background: linear-gradient(135deg, #0e1e19 0%, #00402d 60%, #006c4d 100%);
+  border-radius: 22px;
+  padding: 24px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 16px 36px rgba(0, 40, 29, 0.2);
+  animation: ${floatGlow} 4s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+`;
+
+export const CardTopRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+`;
+
+export const MetallicChip = styled.div`
+  width: 44px;
+  height: 32px;
+  background: linear-gradient(135deg, #f0d068 0%, #c49a2a 100%);
+  border-radius: 6px;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+  }
+`;
+
+export const CardBrandLogo = styled.span<{ $color: string }>`
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: ${props => props.$color};
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+`;
+
+export const CardNumberText = styled.div`
+  font-family: 'Courier Prime', 'Roboto Mono', monospace;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+`;
+
+export const CardBottomRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  z-index: 1;
+`;
+
+export const CardInputGrid = styled.div`
   display: grid;
   grid-template-cols: repeat(2, 1fr);
   gap: 16px;
+  margin-bottom: 28px;
+`;
 
-  @media (min-width: 640px) {
+export const InputGroup = styled.div<{ $span2?: boolean }>`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  grid-column: ${props => props.$span2 ? "span 2" : "span 1"};
+`;
+
+export const InputLabel = styled.label`
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #171d1a;
+`;
+
+export const StyledInput = styled.input`
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1.5px solid #bccac1;
+  background-color: #f6faf7;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #171d1a;
+  outline: none;
+  transition: all 0.2s ease;
+
+  &:focus {
+    border-color: #006c4d;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(0, 108, 77, 0.12);
+  }
+
+  &::placeholder {
+    color: #92a299;
+  }
+`;
+
+export const MainPayButton = styled.button`
+  width: 100%;
+  padding: 18px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #006c4d 0%, #004d37 100%);
+  color: #ffffff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.25s ease;
+  box-shadow: 0 10px 24px rgba(0, 108, 77, 0.3);
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, #00543c 0%, #003626 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(0, 108, 77, 0.4);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+`;
+
+// MOBILE BANKING STYLES
+export const MfsSelectorGrid = styled.div`
+  display: grid;
+  grid-template-cols: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+
+  @media (min-width: 480px) {
     grid-template-cols: repeat(4, 1fr);
   }
 `;
 
-export const ProviderBtn = styled.button<{ $selected: boolean; $brandColor: string; $bgColor: string }>`
-  border: 1px solid ${props => props.$selected ? props.$brandColor : "rgba(196, 199, 199, 0.3)"};
-  background-color: ${props => props.$selected ? props.$bgColor : "transparent"};
-  border-radius: 16px;
-  padding: 16px;
+export const MfsTile = styled.button<{ $selected: boolean; $brandColor: string; $bgColor: string }>`
+  padding: 16px 12px;
+  border-radius: 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
+  gap: 8px;
+  border: 2px solid ${props => props.$selected ? props.$brandColor : "rgba(0, 108, 77, 0.12)"};
+  background-color: ${props => props.$selected ? props.$bgColor : "#ffffff"};
   cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: ${props => props.$selected ? props.$bgColor : "#f1f3f4"};
-  }
+  transition: all 0.2s ease;
 
   span {
-    font-family: monospace;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: ${props => props.$brandColor};
+    font-weight: 800;
+    color: ${props => props.$selected ? props.$brandColor : "#3d4943"};
+  }
+
+  &:hover {
+    border-color: ${props => props.$brandColor};
+    transform: translateY(-2px);
   }
 `;
 
-// Mobile Form Sub-wrapper
-export const MobileFormWrapper = styled.div`
-  background-color: #f8f9fa;
-  border: 1px solid rgba(196, 199, 199, 0.2);
-  border-radius: 16px;
-  padding: 24px;
-  max-width: 448px;
-  margin: 32px auto 0;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+export const MfsPortalCard = styled.div<{ $brandColor: string }>`
+  border: 2px solid ${props => props.$brandColor};
+  border-radius: 20px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
 `;
 
-export const ProviderBadgeWrapper = styled.div`
+export const MfsPortalHeader = styled.div<{ $brandColor: string }>`
+  background: ${props => props.$brandColor};
+  color: #ffffff;
+  padding: 14px 20px;
   text-align: center;
-`;
-
-export const ProviderBadge = styled.span`
-  font-family: monospace;
-  font-size: 10px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  padding: 4px 12px;
-  background-color: #ffffff;
-  border: 1px solid rgba(196, 199, 199, 0.2);
-  border-radius: 9999px;
-  color: rgba(25, 28, 29, 0.8);
+  letter-spacing: 0.08em;
 `;
 
-export const ButtonGroup = styled.div`
+export const MfsPortalBody = styled.div`
+  padding: 24px;
   display: flex;
+  flex-direction: column;
   gap: 16px;
 `;
 
-export const SecondaryBtn = styled.button`
-  flex: 1;
-  padding: 12px;
-  background-color: transparent;
-  border: 1px solid rgba(196, 199, 199, 1);
-  color: #191c1d;
-  border-radius: 9999px;
-  font-family: monospace;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: #ffffff;
-  }
+export const StepButtonGroup = styled.div`
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
 `;
 
-export const PrimaryBtn = styled.button`
+export const ActionButton = styled.button<{ $variant?: "primary" | "secondary" }>`
   flex: 1;
-  padding: 12px;
-  background-color: #000000;
-  color: #ffffff;
-  border: 1px solid #000000;
-  border-radius: 9999px;
-  font-family: monospace;
-  font-size: 12px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 
-  &:hover:not(:disabled) {
-    background-color: #526069;
-    border-color: #526069;
-  }
-
-  &:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
+  ${props => props.$variant === "secondary" ? `
+    background: #ffffff;
+    color: #006c4d;
+    border: 1px solid rgba(0, 108, 77, 0.25);
+    &:hover { background: #edf4f0; }
+  ` : `
+    background: #006c4d;
+    color: #ffffff;
+    border: none;
+    &:hover:not(:disabled) { background: #005139; }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+  `}
 `;
 
-// Processing Loader Overlay
+// PROCESSING OVERLAY & SPINNER
 export const ProcessingOverlay = styled(motion.div)`
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 9999;
+  background: rgba(0, 21, 14, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 999;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
-  text-align: center;
+  padding: 24px;
 `;
 
-export const LoaderWrapper = styled.div`
+export const LoaderCard = styled.div`
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 44px 36px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  max-width: 384px;
+  align-items: center;
+  gap: 20px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
 `;
 
 export const Spinner = styled.div`
-  width: 64px;
-  height: 64px;
-  border: 4px solid rgba(255, 255, 255, 0.2);
-  border-top-color: #ffffff;
+  width: 52px;
+  height: 52px;
+  border: 4px solid rgba(0, 108, 77, 0.15);
+  border-top-color: #006c4d;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto;
+  animation: spin 0.8s linear infinite;
 
   @keyframes spin {
     to { transform: rotate(360deg); }
   }
 `;
 
-export const ProcessingMsg = styled.p`
-  color: #ffffff;
-  font-family: monospace;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  font-weight: 700;
-  animation: pulse 1.5s ease-in-out infinite;
-
-  @keyframes pulse {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
-  }
-`;
-
-// Success View Styles
-export const SuccessContainer = styled.div`
+// E-TICKET SUCCESS VIEW
+export const SuccessWrapper = styled.main`
   min-height: 100vh;
-  background-color: #f8f9fa;
-  color: #191c1d;
-  padding-top: 72px;
+  background: radial-gradient(circle at 50% 20%, rgba(0, 108, 77, 0.08) 0%, transparent 50%), #f6faf7;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding: 100px 24px 60px;
 `;
 
-export const SuccessCard = styled(motion.div)`
-  background-color: #ffffff;
-  border: 1px solid rgba(196, 199, 199, 0.3);
-  border-radius: 24px;
-  padding: 32px;
-  max-width: 512px;
+export const TicketReceiptCard = styled(motion.div)`
+  background: #ffffff;
+  border-radius: 28px;
+  max-width: 500px;
   width: 100%;
-  text-align: center;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-  position: relative;
+  box-shadow: 0 24px 60px rgba(0, 40, 29, 0.12);
+  border: 1px solid rgba(0, 108, 77, 0.15);
   overflow: hidden;
 `;
 
-export const CheckCircle = styled.div`
-  width: 80px;
-  height: 80px;
-  background-color: #e8f5e9;
-  border: 1px solid #c8e6c9;
+export const TicketHeader = styled.div`
+  background: linear-gradient(135deg, #006c4d 0%, #00402d 100%);
+  color: #ffffff;
+  padding: 36px 28px;
+  text-align: center;
+  position: relative;
+`;
+
+export const CheckIconCircle = styled.div`
+  width: 64px;
+  height: 64px;
+  background: #ffffff;
+  color: #006c4d;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #2e7d32;
-  margin: 0 auto 24px;
+  margin: 0 auto 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 
   .material-symbols-outlined {
-    font-size: 40px;
-    font-weight: bold;
+    font-size: 36px;
+    font-weight: 800;
   }
 `;
 
-export const SuccessReceipt = styled.div`
-  background-color: #f8f9fa;
-  border: 1px solid rgba(196, 199, 199, 0.2);
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 32px;
-  text-align: left;
+export const TicketBody = styled.div`
+  padding: 28px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  font-family: monospace;
-  font-size: 12px;
-  color: #444748;
+  gap: 14px;
 `;
 
-export const ReceiptRow = styled.div`
+export const ReceiptLine = styled.div`
   display: flex;
   justify-content: space-between;
+  font-size: 14px;
 `;
 
-export const ReceiptLabel = styled.span`
-  opacity: 0.6;
-`;
-
-export const ReceiptVal = styled.span`
-  font-weight: bold;
-  color: #191c1d;
-`;
-
-export const ActionButtonGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  @media (min-width: 640px) {
-    flex-direction: row;
-    justify-content: center;
-  }
+export const BarcodeBox = styled.div`
+  margin-top: 16px;
+  padding-top: 20px;
+  border-top: 2px dashed rgba(0, 108, 77, 0.15);
+  text-align: center;
+  font-family: monospace;
+  font-size: 22px;
+  letter-spacing: 0.3em;
+  color: #002115;
 `;
