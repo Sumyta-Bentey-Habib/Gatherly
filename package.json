@@ -12,6 +12,7 @@
     "start": "turbo run start",
     "start:web": "pnpm --filter web start",
     "start:server": "pnpm --filter server start",
+    "seed": "pnpm --filter server db:seed",
     "db:seed": "pnpm --filter server db:seed"
   },
   "devDependencies": {
