@@ -69,7 +69,7 @@ export const featuredEvents: EventItem[] = [
     id: "featured-1",
     title: "Design Leadership Summit",
     category: "Design",
-    date: "Oct 24, 2024 • 9:00 AM",
+    date: "Oct 24,2016 • 9:00 AM",
     location: "San Francisco, CA",
     price: "$299",
     tag: "Almost Full",
@@ -80,7 +80,7 @@ export const featuredEvents: EventItem[] = [
     id: "featured-2",
     title: "Art & Tech Mixer",
     category: "Networking",
-    date: "Nov 05, 2024 • 6:30 PM",
+    date: "Nov 05,2016 • 6:30 PM",
     location: "New York, NY",
     price: "Free",
     tag: "Networking",
@@ -91,7 +91,7 @@ export const featuredEvents: EventItem[] = [
     id: "featured-3",
     title: "Sustainable Future Expo",
     category: "Conference",
-    date: "Dec 12, 2024 • 10:00 AM",
+    date: "Dec 12,2016 • 10:00 AM",
     location: "Austin, TX",
     price: "$150",
     tag: "Conference",
@@ -163,13 +163,13 @@ export const quickActions: QuickAction[] = [
 export const pendingEvents: PendingEvent[] = [
   {
     id: "pending-1",
-    title: "Global Tech Summit 2024",
+    title: "Global Tech Summit2016",
     type: "Conference",
     expectedAttendees: "500+ expected",
     organizerName: "Jane Smith",
     organizerInitials: "JS",
     organizerBgClass: "bg-secondary-container text-on-secondary-container",
-    dateSubmitted: "Oct 24, 2024"
+    dateSubmitted: "Oct 24,2016"
   },
   {
     id: "pending-2",
@@ -179,7 +179,7 @@ export const pendingEvents: PendingEvent[] = [
     organizerName: "Marcus Doe",
     organizerInitials: "MD",
     organizerBgClass: "bg-tertiary-container text-on-tertiary-container",
-    dateSubmitted: "Oct 23, 2024"
+    dateSubmitted: "Oct 23,2016"
   },
   {
     id: "pending-3",
@@ -189,7 +189,7 @@ export const pendingEvents: PendingEvent[] = [
     organizerName: "Elena Hayes",
     organizerInitials: "EH",
     organizerBgClass: "bg-primary-container/30 text-primary",
-    dateSubmitted: "Oct 22, 2024"
+    dateSubmitted: "Oct 22,2016"
   }
 ];
 

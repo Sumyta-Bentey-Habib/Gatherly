@@ -18,7 +18,7 @@ export default function Footer() {
             Effortless coordination for modern gatherings.
           </p>
           <p className="text-secondary dark:text-secondary-fixed-dim font-label-sm text-label-sm mt-auto pt-4">
-            © 2024 Gatherly. All rights reserved.
+            © 2026 Gatherly. All rights reserved.
           </p>
         </div>
         <div className="flex flex-col gap-3">
